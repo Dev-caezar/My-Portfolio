@@ -90,7 +90,7 @@ const Hero = () => {
             <motion.img
                src={myself}
                alt="Oko Christian"
-               className="w-36 h-36 sm:w-48 sm:h-48 md:w-60 md:h-60 lg:w-72 lg:h-72 rounded-full object-cover border-4 shadow-xl"
+               className="className='w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-52 lg:h-52 rounded-full object-cover border-4 border-blue-800 shadow-lg'"
                style={{ borderColor: isDarkMode ? '#FFFFFF' : '#1e40af' }}
                variants={imageVariants}
                initial="hidden"
@@ -113,7 +113,7 @@ const Hero = () => {
                   {displayedText}
                   <span className="animate-pulse">|</span>
                </h2>
-               <p className="mt-6 sm:mt-8 text-base sm:text-lg md:text-2xl lg:text-2xl leading-relaxed max-w-4xl text-gray-800 dark:text-gray-200">
+               <p className="mt-6 sm:mt-8 text-base sm:text-lg md:text-2xl lg:text-2xl leading-relaxed max-w-4xl text-gray-800 dark:text-black">
                   Welcome to my portfolio! I'm a passionate frontend developer specializing in building
                   responsive and scalable web applications. My expertise lies in modern technologies like React,
                   and I am currently expanding my skills into mobile development using React Native.
