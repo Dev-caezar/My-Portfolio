@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'; 
 import heroImage from "../assets/image/myself5.png";
 import myself from "../assets/image/myself4.png";
 
@@ -66,7 +66,7 @@ const Hero = () => {
 
    return (
       <div
-         className="w-full h-screen relative flex items-center justify-center px-6"
+         className='w-full h-screen min-h-max relative'
          style={{
             backgroundImage: `url(${heroImage})`,
             backgroundSize: 'cover',
@@ -74,23 +74,20 @@ const Hero = () => {
             backgroundRepeat: 'no-repeat',
          }}
       >
-         {/* Overlay */}
          <div
-            className="absolute inset-0 z-10 w-full h-full"
+            className='absolute inset-0 z-10 w-full h-full'
             style={{
-               backgroundColor: isDarkMode
-                  ? 'rgba(0, 0, 0, 0.6)'   // darker overlay for dark mode
-                  : 'rgba(255, 255, 255, 0.3)', // lighter but more transparent for light mode
-               backdropFilter: 'blur(6px)',
+               backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.7)',
+               backdropFilter: 'blur(4px)',
             }}
          ></div>
 
-         {/* Content */}
-         <div className="relative z-20 w-full max-w-5xl flex flex-col items-center text-center space-y-10 md:space-y-14">
+         <div className='absolute w-full h-[100%] inset-0 flex flex-col items-center justify-start z-20 pt-32'
+            style={{ color: isDarkMode ? '#FFFFFF' : '#000000' }}>
             <motion.img
                src={myself}
                alt="Oko Christian"
-               className="className='w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-52 lg:h-52 rounded-full object-cover border-4 border-blue-800 shadow-lg'"
+               className='w-35 md:w-40 h-35 md:h-40 rounded-full object-cover border-4 border-blue-800 shadow-lg'
                style={{ borderColor: isDarkMode ? '#FFFFFF' : '#1e40af' }}
                variants={imageVariants}
                initial="hidden"
@@ -98,27 +95,24 @@ const Hero = () => {
             />
 
             <motion.div
-               className="flex flex-col items-center"
+               className="flex flex-col items-center justify-end"
                variants={textVariants}
                initial="hidden"
                animate="visible"
             >
-               <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white">
+               <h1 className="text-2xl font-bold md:text-4xl">
                   Oko Christian
                </h1>
-               <h2
-                  className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mt-4"
-                  style={{ color: isDarkMode ? '#93c5fd' : '#1e40af' }}
-               >
+               <h2 className="text-3xl md:text-5xl font-semibold mt-2 text-blue-800"
+                  style={{ color: isDarkMode ? '#93c5fd' : '#1e40af' }}>
                   {displayedText}
                   <span className="animate-pulse">|</span>
                </h2>
-               <p className="mt-6 sm:mt-8 text-base sm:text-lg md:text-2xl lg:text-2xl leading-relaxed max-w-4xl text-gray-800 dark:text-black">
+               <p className="mt-6 text-center text-[18px] md:text-xl max-w-2xl">
                   Welcome to my portfolio! I'm a passionate frontend developer specializing in building
                   responsive and scalable web applications. My expertise lies in modern technologies like React,
-                  and I am currently expanding my skills into mobile development using React Native.
-                  I am committed to delivering high-quality solutions that focus on performance,
-                  user experience, and clean, maintainable code.
+                  and I am currently expanding my skills into mobile development using React Native. I am committed to delivering high-quality solutions that focus on
+                  performance, user experience, and clean, maintainable code.
                </p>
             </motion.div>
          </div>
