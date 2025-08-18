@@ -10,7 +10,7 @@ const Header = () => {
    const navTitles = ["Home", "About", "Experience", "Projects", "Contact"];
 
    return (
-      <div className='fixed w-full h-[20vh] flex justify-center items-center z-50 p-4'>
+      <div className='fixed w-full h-[12vh] md:h-[20vh] flex justify-center items-center z-50 p-4'>
 
          <div className='hidden md:flex w-[60%] h-[80%] rounded-full shadow-md justify-around items-center px-8'>
             {navTitles.map((title, index) => (
@@ -31,7 +31,7 @@ const Header = () => {
 
          <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className={`md:hidden flex items-center space-x-2 py-3 px-6 rounded-full border 
+            className={`md:hidden flex items-center space-x-2 py-2  px-4 rounded-full border 
                ${isDarkMode ? "border-gray-600 bg-blue-800 text-gray-200" : "border-gray-300 bg-gray-100 text-blue-800"}`}
             aria-label="Toggle navigation menu"
          >

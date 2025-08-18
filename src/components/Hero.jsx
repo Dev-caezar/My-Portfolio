@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useSelector } from 'react-redux'; 
+import { useSelector } from 'react-redux';
 import heroImage from "../assets/image/myself5.png";
 import myself from "../assets/image/myself4.png";
 
@@ -66,7 +66,7 @@ const Hero = () => {
 
    return (
       <div
-         className='w-full h-screen relative'
+         className='w-full h-screen relative flex items-center justify-center px-4'
          style={{
             backgroundImage: `url(${heroImage})`,
             backgroundSize: 'cover',
@@ -74,6 +74,7 @@ const Hero = () => {
             backgroundRepeat: 'no-repeat',
          }}
       >
+         {/* Overlay */}
          <div
             className='absolute inset-0 z-10 w-full h-full'
             style={{
@@ -82,12 +83,12 @@ const Hero = () => {
             }}
          ></div>
 
-         <div className='absolute w-full h-[100%] inset-0 flex flex-col items-center justify-start z-20 pt-32'
-            style={{ color: isDarkMode ? '#FFFFFF' : '#000000' }}>
+         {/* Content */}
+         <div className='relative z-20 w-full max-w-4xl flex flex-col items-center text-center space-y-6 md:space-y-8'>
             <motion.img
                src={myself}
                alt="Oko Christian"
-               className='w-40 h-40 rounded-full object-cover border-4 border-blue-800 shadow-lg'
+               className='w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-52 lg:h-52 rounded-full object-cover border-4 border-blue-800 shadow-lg'
                style={{ borderColor: isDarkMode ? '#FFFFFF' : '#1e40af' }}
                variants={imageVariants}
                initial="hidden"
@@ -95,20 +96,22 @@ const Hero = () => {
             />
 
             <motion.div
-               className="flex flex-col items-center justify-end"
+               className="flex flex-col items-center"
                variants={textVariants}
                initial="hidden"
                animate="visible"
             >
-               <h1 className="text-2xl font-bold md:text-4xl">
+               <h1 className="text-xl sm:text-2xl md:text-4xl font-bold">
                   Oko Christian
                </h1>
-               <h2 className="text-3xl md:text-5xl font-semibold mt-2 text-blue-800"
-                  style={{ color: isDarkMode ? '#93c5fd' : '#1e40af' }}>
+               <h2
+                  className="text-2xl sm:text-3xl md:text-5xl font-semibold mt-2"
+                  style={{ color: isDarkMode ? '#93c5fd' : '#1e40af' }}
+               >
                   {displayedText}
                   <span className="animate-pulse">|</span>
                </h2>
-               <p className="mt-6 text-center text-lg md:text-xl max-w-2xl">
+               <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg lg:text-xl max-w-2xl">
                   Welcome to my portfolio! I'm a passionate frontend developer specializing in building
                   responsive and scalable web applications. My expertise lies in modern technologies like React,
                   and I am currently expanding my skills into mobile development using React Native. I am committed to delivering high-quality solutions that focus on
