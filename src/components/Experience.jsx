@@ -10,25 +10,25 @@ const Experience = () => {
    // Data for the Skills section
    const skills = [
       { name: 'HTML', level: 95, color: 'bg-purple-600' },
-      { name: 'CSS', level: 85, color: 'bg-yellow-500' },
-      { name: 'PHP', level: 90, color: 'bg-red-500' },
-      { name: 'Javascript', level: 90, color: 'bg-red-500' },
-      { name: 'Angular JS', level: 95, color: 'bg-purple-600' },
-      { name: 'Wordpress', level: 85, color: 'bg-cyan-500' },
+      { name: 'CSS', level: 95, color: 'bg-yellow-500' },
+      { name: 'Javascript', level: 80, color: 'bg-red-500' },
+      { name: 'Tailwind Css', level: 90, color: 'bg-red-500' },
+      { name: 'React JS', level: 95, color: 'bg-purple-600' },
+      // { name: 'Wordpress', level: 85, color: 'bg-cyan-500' },
    ];
 
    // Data for the Experience section
    const experiences = [
-      { title: 'UI Designer', years: '2000 - 2045', company: 'Apex Software Inc' },
-      { title: 'Product Designer', years: '2000 - 2045', company: 'Apex Software Inc' },
-      { title: 'Web Designer', years: '2000 - 2045', company: 'Apex Software Inc' },
-      { title: 'Apps Designer', years: '2000 - 2045', company: 'Apex Software Inc' },
+      { title: 'Frontend Developer', years: '2024 - till date', company: 'The Curve Africa' },
+      // { title: 'Product Designer', years: '2000 - 2045', company: 'Apex Software Inc' },
+      // { title: 'Web Designer', years: '2000 - 2045', company: 'Apex Software Inc' },
+      // { title: 'Apps Designer', years: '2000 - 2045', company: 'Apex Software Inc' },
    ];
 
    // Data for the Education section
    const education = [
-      { title: 'Bachelor of Science', years: '1995 - 1999', company: 'University of ABC' },
-      { title: 'Master of Arts', years: '2001 - 2003', company: 'University of XYZ' },
+      { title: 'The Curve Africa', years: 'October 2024 - April 2025'},
+      { title: 'Expressway Senior High School', years: '2014 - 2019'},
    ];
 
    const containerVariants = {

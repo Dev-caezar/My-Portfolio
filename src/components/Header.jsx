@@ -10,7 +10,7 @@ const Header = () => {
    const navTitles = ["Home", "About", "Projects", "Experience", "Contact"];
 
    return (
-      <div className='fixed w-full h-[12vh] md:h-[20vh] flex justify-center items-center z-50 p-4'>
+      <div className='fixed w-full h-[10vh] md:h-[20vh] flex justify-end md:justify-center items-center z-50 p-4'>
 
          {/* Desktop Navigation */}
          <div className='hidden md:flex w-[60%] h-[80%] rounded-full shadow-md justify-around items-center px-8'>
