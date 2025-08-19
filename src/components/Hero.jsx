@@ -76,7 +76,7 @@ const Hero = () => {
       >
          {/* Overlay with better readability */}
          <div
-            className="absolute inset-0 z-10 flex items-center md:items-end"
+            className="absolute inset-0 z-10 flex items-center md:items-end mt-6 md:mt-0"
             style={{
                background: isDarkMode
                   ? 'rgba(0, 0, 0, 0.55)'
