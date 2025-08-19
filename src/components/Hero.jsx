@@ -66,7 +66,7 @@ const Hero = () => {
 
    return (
       <div
-         className="w-full h-screen relative flex items-center md:items-end justify-center pb-7"
+         className="w-full h-screen relative flex items-center md:items-end justify-center pb-9"
          style={{
             backgroundImage: `url(${heroImage})`,
             backgroundSize: 'cover',
@@ -76,7 +76,7 @@ const Hero = () => {
       >
          {/* Overlay with better readability */}
          <div
-            className="absolute inset-0 z-10 flex items-end"
+            className="absolute inset-0 z-10 flex items-center md:items-end"
             style={{
                background: isDarkMode
                   ? 'rgba(0, 0, 0, 0.55)'
