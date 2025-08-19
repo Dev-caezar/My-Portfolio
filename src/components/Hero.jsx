@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import heroImage from "../assets/image/myself5.png";
 import myself from "../assets/image/myself4.png";
+import { FaLinkedin, FaGithub, FaPaperPlane } from 'react-icons/fa';
 
 const Hero = () => {
    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
@@ -59,14 +60,21 @@ const Hero = () => {
             type: "spring",
             stiffness: 100,
             damping: 10,
-            delay: 0.5
+            delay: 0.5,
+            delayChildren: 0.7, // Delay for children animations
+            staggerChildren: 0.2 // Stagger delay for children
          }
       }
    };
 
+   const buttonVariants = {
+      hidden: { opacity: 0, y: 20 },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+   };
+
    return (
       <div
-         className="w-full h-screen relative flex items-center md:items-end justify-center pb-9"
+         className="w-full h-[120vh] relative flex items-center md:items-center justify-center"
          style={{
             backgroundImage: `url(${heroImage})`,
             backgroundSize: 'cover',
@@ -122,6 +130,33 @@ const Hero = () => {
                   and I am currently expanding my skills into mobile development using React Native. I am committed to delivering high-quality solutions that focus on
                   performance, user experience, and clean, maintainable code.
                </p>
+
+               {/* Download CV and Social Media Icons */}
+               <motion.div
+                  className="mt-8 flex flex-col sm:flex-row items-center gap-4"
+                  variants={textVariants}
+               >
+                  {/* Download CV Button */}
+                  <motion.a
+                     href="/your-cv.pdf" // Replace with the actual path to your CV
+                     download="Oko-Christian-CV"
+                     className="flex items-center gap-2 px-8 py-4 text-lg font-medium rounded-full text-white transition-colors duration-300 bg-purple-700 hover:bg-purple-800"
+                     variants={buttonVariants}
+                  >
+                     <FaPaperPlane />
+                     Download CV
+                  </motion.a>
+
+                  {/* Social Media Icons */}
+                  <div className="flex gap-4">
+                     <motion.a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" variants={buttonVariants}>
+                        <FaLinkedin className="text-3xl hover:text-purple-500 transition-colors" />
+                     </motion.a>
+                     <motion.a href="https://github.com/yourprofile" target="_blank" rel="noopener noreferrer" variants={buttonVariants}>
+                        <FaGithub className="text-3xl hover:text-purple-500 transition-colors" />
+                     </motion.a>
+                  </div>
+               </motion.div>
             </motion.div>
          </div>
       </div>
