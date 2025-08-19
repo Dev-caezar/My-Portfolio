@@ -6,7 +6,7 @@ import DarkModeToggle from './DarkModeToggle '
 
 const Layout = () => {
    return (
-      <div className="w-full min-h-screen flex flex-col">
+      <div className="w-full min-h-max flex flex-col">
          <Header />
          <main className="flex-grow">
             <Outlet />

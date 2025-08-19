@@ -4,7 +4,7 @@ import AboutMe from '../components/AboutMe'
 
 const Home = () => {
   return (
-     <div className='w-full h-screen min-h-max'>
+     <div className='flex-1'>
       <Hero />
       <AboutMe />
     </div>
