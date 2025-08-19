@@ -55,9 +55,9 @@ const Projects = () => {
 
    return (
       <div
-         className={`w-full min-h-screen py-16 flex flex-col items-center justify-center transition-colors duration-500
-         ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
-
+         className={`w-full py-10 flex flex-col items-center justify-center transition-colors duration-500
+         ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}
+      >
          <div className="w-full max-w-6xl px-4 text-center">
             <h2
                className={`text-4xl font-bold mb-8

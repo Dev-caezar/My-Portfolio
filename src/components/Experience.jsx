@@ -45,12 +45,12 @@ const Experience = () => {
 
    return (
       <div
-         className={`w-full h-[80vh] flex justify-center items-center transition-colors duration-500
-         ${isDarkMode ? 'bg-black' : 'bg-gray-100'}`}
+         className={`w-full py-10 flex justify-center items-center transition-colors duration-500
+         ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}
       >
          <motion.div
             className={`p-8 md:p-12 rounded-lg shadow-xl w-full max-w-6xl transition-colors duration-500
-            ${isDarkMode ? 'bg-gray-900 text-gray-100' : 'bg-white text-gray-800'}`}
+            ${isDarkMode ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-800'}`}
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"

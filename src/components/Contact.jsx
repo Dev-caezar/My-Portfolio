@@ -26,7 +26,7 @@ const Contact = () => {
 
    return (
       <div
-         className={`min-h-screen py-16 flex flex-col items-center justify-center transition-colors duration-500
+         className={`w-full py-10 flex flex-col items-center justify-center transition-colors duration-500
          ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}
       >
          <motion.div
