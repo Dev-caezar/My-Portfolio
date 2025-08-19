@@ -99,7 +99,7 @@ const Hero = () => {
             />
 
             <motion.div
-               className="flex flex-col items-center justify-end mt-6"
+               className="flex flex-col items-center justify-end mt-6 pb-5 md:pb-0"
                variants={textVariants}
                initial="hidden"
                animate="visible"
@@ -109,7 +109,7 @@ const Hero = () => {
                </h1>
                <h2
                   className="text-3xl md:text-5xl font-semibold mt-2"
-                  style={{ color: isDarkMode ? '#a5b4fc' : '#1e3a8a' }} // indigo-300 in dark, indigo-900 in light
+                  style={{ color: isDarkMode ? '#a5b4fc' : '#1e3a8a' }} 
                >
                   {displayedText}
                   <span className="animate-pulse">|</span>
