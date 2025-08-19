@@ -6,7 +6,7 @@ import DarkModeToggle from './DarkModeToggle '
 
 const Layout = () => {
    return (
-      <div>
+      <div className='w-full h-screen min-h-max'>
          <Header />
          <Outlet />
          <DarkModeToggle />
