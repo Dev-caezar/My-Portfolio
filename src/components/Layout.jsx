@@ -1,17 +1,20 @@
 import React from 'react'
 import Header from './Header'
 import { Outlet } from 'react-router-dom'
-import Footer from '../Footer'
+import Footer from './Footer'
 import DarkModeToggle from './DarkModeToggle '
 
 const Layout = () => {
    return (
-      <div className='w-full h-screen min-h-max'>
+      <div className="w-full min-h-screen flex flex-col">
          <Header />
-         <Outlet />
+         <main className="flex-grow">
+            <Outlet />
+         </main>
          <DarkModeToggle />
          <Footer />
       </div>
+
    )
 }
 
