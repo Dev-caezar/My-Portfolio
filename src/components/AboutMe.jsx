@@ -39,10 +39,14 @@ const AboutMe = () => {
             }`}
       >
          <div className="w-full max-w-4xl px-4 text-center">
-            <h2 className="text-4xl font-bold mb-8">About Me</h2>
+            {/* Responsive heading */}
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-8">
+               About Me
+            </h2>
 
+            {/* Responsive paragraph text */}
             <div
-               className={`space-y-6 text-lg ${isDarkMode ? "text-gray-300" : "text-gray-700"
+               className={`space-y-6 text-sm sm:text-base md:text-lg ${isDarkMode ? "text-gray-300" : "text-gray-700"
                   }`}
             >
                <p>
@@ -66,7 +70,8 @@ const AboutMe = () => {
             </div>
          </div>
 
-         <div className="mt-12 w-full max-w-4xl px-4 flex justify-center flex-wrap gap-8">
+         {/* Technologies Icons */}
+         <div className="mt-12 w-full max-w-4xl px-4 flex justify-center flex-wrap gap-6 sm:gap-8">
             {technologies.map((tech, index) => (
                <div
                   key={index}
@@ -75,12 +80,12 @@ const AboutMe = () => {
                   aria-label={tech.name}
                >
                   <div
-                     className={`p-4 rounded-full border-2 shadow-md ${isDarkMode
+                     className={`p-3 sm:p-4 rounded-full border-2 shadow-md ${isDarkMode
                            ? "border-gray-600 bg-gray-800 text-white"
                            : "border-gray-300 bg-gray-100 text-gray-800"
                         }`}
                   >
-                     <span className="text-4xl">{tech.icon}</span>
+                     <span className="text-3xl sm:text-4xl">{tech.icon}</span>
                   </div>
                </div>
             ))}
