@@ -66,7 +66,7 @@ const Hero = () => {
 
    return (
       <div
-         className="w-full h-screen relative flex items-end justify-center pb-7"
+         className="w-full h-screen relative flex items-center md:items-end justify-center pb-7"
          style={{
             backgroundImage: `url(${heroImage})`,
             backgroundSize: 'cover',
