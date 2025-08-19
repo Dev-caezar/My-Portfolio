@@ -10,7 +10,7 @@ const DarkModeToggle = () => {
    return (
       <button
          onClick={() => dispatch(toggleTheme())}
-         className='fixed bottom-4 right-4 z-50 p-3 rounded-full shadow-lg bg-white dark:bg-blue-800 transition-colors duration-500'
+         className='fixed bottom-4 right-4 z-50 p-3 rounded-full shadow-lg bg-white dark:bg-gray-800 transition-colors duration-500'
          aria-label="Toggle dark mode"
       >
          {isDarkMode ? (
