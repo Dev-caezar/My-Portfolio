@@ -66,7 +66,7 @@ const Hero = () => {
 
    return (
       <div
-         className='w-full h-screen min-h-max relative'
+         className="w-full h-screen relative flex items-end justify-center pb-7"
          style={{
             backgroundImage: `url(${heroImage})`,
             backgroundSize: 'cover',
@@ -74,47 +74,49 @@ const Hero = () => {
             backgroundRepeat: 'no-repeat',
          }}
       >
-         {/* Overlay */}
+         {/* Overlay with better readability */}
          <div
-            className='absolute inset-0 z-10 w-full h-full'
+            className="absolute inset-0 z-10 flex items-end"
             style={{
-               backgroundColor: isDarkMode ? 'rgba(0, 0, 0, 0.55)' : 'rgba(255, 255, 255, 0.7)',
+               background: isDarkMode
+                  ? 'rgba(0, 0, 0, 0.55)'
+                  : 'linear-gradient(to bottom, rgba(255,255,255,0.85), rgba(255,255,255,0.65))',
                backdropFilter: 'blur(4px)',
             }}
          ></div>
 
          {/* Content */}
          <div
-            className='absolute w-full h-[100%] inset-0 flex flex-col items-center justify-start z-20 pt-32 px-6 md:px-12'
-            style={{ color: isDarkMode ? '#FFFFFF' : '#000000' }}
+            className="relative z-20 flex flex-col items-center text-center px-6 md:px-12"
+            style={{ color: isDarkMode ? '#FFFFFF' : '#111827' }} 
          >
             <motion.img
                src={myself}
                alt="Oko Christian"
-               className='w-32 md:w-44 h-32 md:h-44 rounded-full object-cover border-4 shadow-lg'
-               style={{ borderColor: isDarkMode ? '#FFFFFF' : '#1e3a8a' }} 
+               className="w-28 md:w-40 h-28 md:h-40 rounded-full object-cover border-4 shadow-lg"
+               style={{ borderColor: isDarkMode ? '#FFFFFF' : '#1e3a8a' }}
                variants={imageVariants}
                initial="hidden"
                animate="visible"
             />
 
             <motion.div
-               className="flex flex-col items-center justify-end mt-6 pb-5 md:pb-0"
+               className="flex flex-col items-center mt-6"
                variants={textVariants}
                initial="hidden"
                animate="visible"
             >
-               <h1 className="text-2xl font-bold md:text-4xl">
+               <h1 className="text-xl md:text-4xl font-bold">
                   Oko Christian
                </h1>
                <h2
-                  className="text-3xl md:text-5xl font-semibold mt-2"
-                  style={{ color: isDarkMode ? '#a5b4fc' : '#1e3a8a' }} 
+                  className="text-2xl md:text-5xl font-semibold mt-2"
+                  style={{ color: isDarkMode ? '#a5b4fc' : '#1e3a8a' }}
                >
                   {displayedText}
                   <span className="animate-pulse">|</span>
                </h2>
-               <p className="mt-6 text-center text-[16px] md:text-xl max-w-2xl leading-relaxed">
+               <p className="mt-6 text-[15px] md:text-lg max-w-2xl leading-relaxed">
                   Welcome to my portfolio! I'm a passionate frontend developer specializing in building
                   responsive and scalable web applications. My expertise lies in modern technologies like React,
                   and I am currently expanding my skills into mobile development using React Native. I am committed to delivering high-quality solutions that focus on
