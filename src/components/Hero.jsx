@@ -76,7 +76,7 @@ const Hero = () => {
       >
          {/* Overlay with better readability */}
          <div
-            className="absolute inset-0 z-10 flex items-center md:items-end mt-6 md:mt-0"
+            className="absolute inset-0 z-10 flex items-center md:items-end"
             style={{
                background: isDarkMode
                   ? 'rgba(0, 0, 0, 0.55)'
@@ -87,7 +87,7 @@ const Hero = () => {
 
          {/* Content */}
          <div
-            className="relative z-20 flex flex-col items-center text-center px-6 md:px-12"
+            className="relative z-20 flex flex-col items-center text-center px-6 md:px-12 mt-6 md:mt-0"
             style={{ color: isDarkMode ? '#FFFFFF' : '#111827' }} 
          >
             <motion.img
