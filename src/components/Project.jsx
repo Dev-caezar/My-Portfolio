@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { motion } from 'framer-motion';
 import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
 
 // Import logos for each project
@@ -37,31 +38,57 @@ const Projects = () => {
       }
    ];
 
-   return (
-      <div className={`w-full min-h-screen py-16 flex flex-col items-center justify-center transition-colors duration-500
-         ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+   const containerVariants = {
+      hidden: { opacity: 0 },
+      visible: {
+         opacity: 1,
+         transition: {
+            staggerChildren: 0.2
+         }
+      }
+   };
 
-         <div className="w-full max-w-5xl px-4 text-center">
-            <h2 className={`text-4xl font-bold mb-8
-            ${isDarkMode ? 'text-white': 'text-black'}
-               `}>
+   const cardVariants = {
+      hidden: { opacity: 0, y: 50 },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+   };
+
+   return (
+      <div
+         className={`w-full min-h-screen py-16 flex flex-col items-center justify-center transition-colors duration-500
+         ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
+
+         <div className="w-full max-w-6xl px-4 text-center">
+            <h2
+               className={`text-4xl font-bold mb-8
+                  ${isDarkMode ? 'text-white' : 'text-black'}`}
+            >
                My Projects
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <motion.div
+               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+               variants={containerVariants}
+               initial="hidden"
+               whileInView="visible"
+               viewport={{ once: true, amount: 0.2 }}
+            >
                {projects.map((project, index) => (
-                  <div
+                  <motion.div
                      key={index}
                      className={`p-6 rounded-2xl shadow-lg transition-colors duration-500 transform hover:scale-105 hover:shadow-xl
                      ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}
+                     variants={cardVariants}
                   >
                      <img
                         src={project.logo}
                         alt={`${project.title} logo`}
                         className="w-14 h-14 mx-auto mb-4 object-contain rounded-full border-2 border-gray-300 dark:border-gray-600 p-2 bg-white"
                      />
-                     <h3 className={`text-2xl font-semibold mb-2 text-center
-                        ${isDarkMode ? 'text-indigo-400' : 'text-blue-800'}`}>
+                     <h3
+                        className={`text-2xl font-semibold mb-2 text-center
+                           ${isDarkMode ? 'text-indigo-400' : 'text-purple-700'}`}
+                     >
                         {project.title}
                      </h3>
                      <p className="text-gray-700 dark:text-gray-300 text-sm mb-4 text-center">
@@ -85,7 +112,7 @@ const Projects = () => {
                            href={project.liveLink}
                            target="_blank"
                            rel="noopener noreferrer"
-                           className={`flex items-center gap-1 text-blue-800 dark:text-indigo-400 text-sm font-medium transition-colors duration-200 hover:text-indigo-800 dark:hover:text-indigo-300`}
+                           className={`flex items-center gap-1 text-purple-700 dark:text-indigo-400 text-sm font-medium transition-colors duration-200 hover:text-purple-500 dark:hover:text-indigo-300`}
                         >
                            <FaExternalLinkAlt />
                            Live
@@ -100,9 +127,9 @@ const Projects = () => {
                            GitHub
                         </a>
                      </div>
-                  </div>
+                  </motion.div>
                ))}
-            </div>
+            </motion.div>
          </div>
       </div>
    );

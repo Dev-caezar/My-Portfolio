@@ -88,13 +88,13 @@ const Hero = () => {
          {/* Content */}
          <div
             className="relative z-20 flex flex-col items-center text-center px-6 md:px-12 mt-6 md:mt-0"
-            style={{ color: isDarkMode ? '#FFFFFF' : '#111827' }} 
+            style={{ color: isDarkMode ? '#FFFFFF' : '#111827' }}
          >
             <motion.img
                src={myself}
                alt="Oko Christian"
                className="w-28 md:w-40 h-28 md:h-40 rounded-full object-cover border-4 shadow-lg"
-               style={{ borderColor: isDarkMode ? '#FFFFFF' : '#1e3a8a' }}
+               style={{ borderColor: isDarkMode ? '#FFFFFF' : '#8B5CF6' }}
                variants={imageVariants}
                initial="hidden"
                animate="visible"
@@ -111,7 +111,7 @@ const Hero = () => {
                </h1>
                <h2
                   className="text-2xl md:text-5xl font-semibold mt-2"
-                  style={{ color: isDarkMode ? '#a5b4fc' : '#1e3a8a' }}
+                  style={{ color: isDarkMode ? '#A5B4FC' : '#6D28D9' }}
                >
                   {displayedText}
                   <span className="animate-pulse">|</span>

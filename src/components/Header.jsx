@@ -7,7 +7,7 @@ const Header = () => {
    const [activeTitle, setActiveTitle] = useState('Home');
    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-   const navTitles = ["Home", "About", "Experience", "Projects", "Contact"];
+   const navTitles = ["Home", "About", "Projects", "Experience", "Contact"];
 
    return (
       <div className='fixed w-full h-[12vh] md:h-[20vh] flex justify-center items-center z-50 p-4'>
