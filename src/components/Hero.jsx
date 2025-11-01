@@ -149,10 +149,10 @@ const Hero = () => {
 
                   {/* Social Media Icons */}
                   <div className="flex gap-4">
-                     <motion.a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" variants={buttonVariants}>
+                     <motion.a href="http://linkedin.com/in/oko-christian-aa7262352" target="_blank" rel="noopener noreferrer" variants={buttonVariants}>
                         <FaLinkedin className="text-3xl hover:text-purple-500 transition-colors" />
                      </motion.a>
-                     <motion.a href="https://github.com/yourprofile" target="_blank" rel="noopener noreferrer" variants={buttonVariants}>
+                     <motion.a href="https://github.com/Dev-caezar" target="_blank" rel="noopener noreferrer" variants={buttonVariants}>
                         <FaGithub className="text-3xl hover:text-purple-500 transition-colors" />
                      </motion.a>
                   </div>

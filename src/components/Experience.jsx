@@ -3,32 +3,38 @@ import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 
 const Experience = () => {
-   // Use useSelector to access the Redux theme state
    const isDarkMode = useSelector((state) => state.theme.isDarkMode);
    const [activeTab, setActiveTab] = useState('experience');
 
-   // Data for the Skills section
    const skills = [
       { name: 'HTML', level: 95, color: 'bg-purple-600' },
-      { name: 'CSS', level: 95, color: 'bg-yellow-500' },
-      { name: 'Javascript', level: 80, color: 'bg-red-500' },
-      { name: 'Tailwind Css', level: 90, color: 'bg-red-500' },
+      { name: 'CSS', level: 95, color: 'bg-purple-500' },
+      { name: 'Javascript', level: 80, color: 'bg-yellow-500' },
+      { name: 'Tailwind CSS', level: 90, color: 'bg-purple-500' },
+      { name: 'Styled Component', level: 85, color: 'bg-yellow-500' },
       { name: 'React JS', level: 95, color: 'bg-purple-600' },
-      // { name: 'Wordpress', level: 85, color: 'bg-cyan-500' },
+      { name: 'React-Native', level: 20, color: 'bg-red-600' },
    ];
 
-   // Data for the Experience section
    const experiences = [
-      { title: 'Frontend Developer', years: '2024 - till date', company: 'The Curve Africa' },
-      // { title: 'Product Designer', years: '2000 - 2045', company: 'Apex Software Inc' },
-      // { title: 'Web Designer', years: '2000 - 2045', company: 'Apex Software Inc' },
-      // { title: 'Apps Designer', years: '2000 - 2045', company: 'Apex Software Inc' },
+      {
+         title: 'Frontend Developer',
+         company: 'Quicklah (Startup Project)',
+         years: '2025 - till date',
+         description: 'Contributing to the development of a startup project by building responsive user interfaces, optimizing performance, and collaborating with the product team to enhance user experience.'
+      },
+      {
+         title: 'Frontend Developer',
+         company: 'The Curve Africa',
+         years: '2024 - till date',
+         description: 'Designed and developed responsive user interfaces for web applications, collaborating with a cross-functional team to deliver high-quality software products.'
+      },
    ];
 
-   // Data for the Education section
+
    const education = [
-      { title: 'The Curve Africa', years: 'October 2024 - April 2025'},
-      { title: 'Expressway Senior High School', years: '2014 - 2019'},
+      { title: 'The Curve Africa', years: 'October 2024 - April 2025' },
+      { title: 'Expressway Senior High School', years: '2014 - 2019' },
    ];
 
    const containerVariants = {
@@ -45,6 +51,7 @@ const Experience = () => {
 
    return (
       <div
+         id='experience'
          className={`w-full py-10 flex justify-center items-center transition-colors duration-500
          ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}
       >
@@ -56,34 +63,32 @@ const Experience = () => {
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
          >
-            {/* Header and Tab Navigation */}
-            <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-8">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-around mb-8">
                <div className="mb-6 md:mb-0">
                   <h2 className={`text-4xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
                      Skills & Experience
                   </h2>
                </div>
-               {/* Tab Buttons */}
                <div
                   className={`flex flex-row rounded-full p-1 shadow-inner max-w-sm w-full md:w-auto
-                  ${isDarkMode ? 'bg-gray-800' : 'bg-gray-200'}`}
+                  ${isDarkMode ? 'bg-gray-200' : 'bg-gray-200'}`}
                >
                   <button
                      onClick={() => setActiveTab('experience')}
-                     className={`px-8 py-4 w-1/2 md:w-auto text-lg font-medium rounded-full transition-colors duration-300
+                     className={`px-8 py-4 w-1/2 md:w-auto text-lg font-medium rounded-full transition-colors duration-300 cursor-pointer
                      ${activeTab === 'experience'
                            ? 'bg-purple-700 text-white shadow-md'
-                           : `${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`
+                           : `${isDarkMode ? 'text-purple-800' : 'text-purple-800'}`
                         }`}
                   >
                      Experience
                   </button>
                   <button
                      onClick={() => setActiveTab('education')}
-                     className={`px-8 py-4 w-1/2 md:w-auto text-lg font-medium rounded-full transition-colors duration-300
+                     className={`px-8 py-4 w-1/2 md:w-auto text-lg font-medium rounded-full transition-colors duration-300 cursor-pointer
                      ${activeTab === 'education'
                            ? 'bg-purple-700 text-white shadow-md'
-                           : `${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`
+                           : `${isDarkMode ? 'text-purple-800' : 'text-purple-800'}`
                         }`}
                   >
                      Education
@@ -91,9 +96,7 @@ const Experience = () => {
                </div>
             </div>
 
-            {/* Main Content Sections */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-               {/* My Skills Section */}
                <div>
                   <h3 className={`text-2xl font-semibold mb-6 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>
                      My Skills
@@ -119,15 +122,23 @@ const Experience = () => {
                   </div>
                </div>
 
-               {/* Experience/Education List Section */}
                <div className={`md:border-l ${isDarkMode ? 'md:border-gray-700' : 'md:border-gray-300'} md:pl-12`}>
                   <h3 className="sr-only">Experience List</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 gap-8">
                      {(activeTab === 'experience' ? experiences : education).map((item, index) => (
                         <div key={index} className="flex flex-col">
-                           <span className={`text-xl font-semibold mb-1 ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>{item.title}</span>
-                           <span className={`text-sm mb-1 ${isDarkMode ? 'text-purple-400' : 'text-purple-700'}`}>{item.years}</span>
-                           <span className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{item.company}</span>
+                           {item.title && (
+                              <h4 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>{item.title}</h4>
+                           )}
+                           {item.company && (
+                              <p className={`text-lg font-semibold ${isDarkMode ? 'text-purple-400' : 'text-purple-700'}`}>{item.company}</p>
+                           )}
+                           {item.years && (
+                              <p className={`text-sm mb-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{item.years}</p>
+                           )}
+                           {item.description && (
+                              <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{item.description}</p>
+                           )}
                         </div>
                      ))}
                   </div>

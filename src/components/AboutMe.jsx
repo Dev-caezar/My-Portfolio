@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import {
    FaHtml5,
    FaCss3,
-   FaSass,
    FaReact,
    FaNodeJs,
    FaGitAlt,
@@ -23,7 +22,6 @@ const AboutMe = () => {
    const technologies = [
       { icon: <FaHtml5 />, name: "HTML5" },
       { icon: <FaCss3 />, name: "CSS3" },
-      { icon: <FaSass />, name: "Sass" },
       { icon: <SiJavascript />, name: "JavaScript" },
       { icon: <FaReact />, name: "React" },
       { icon: <SiRedux />, name: "Redux" },
@@ -65,6 +63,7 @@ const AboutMe = () => {
 
    return (
       <div
+         id="about"  // 🔑 This connects to your navigation
          className={`w-full min-h-screen py-16 flex flex-col items-center justify-center transition-colors duration-500 ${isDarkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900"}`}
       >
          <div className="w-full max-w-4xl px-4 text-center">
@@ -106,7 +105,6 @@ const AboutMe = () => {
             </motion.div>
          </div>
 
-         {/* Technologies Icons */}
          <motion.div
             className="mt-12 w-full max-w-4xl px-4 flex justify-center flex-wrap gap-6 sm:gap-8"
             variants={iconContainerVariants}

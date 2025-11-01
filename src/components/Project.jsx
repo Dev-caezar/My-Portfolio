@@ -24,7 +24,7 @@ const Projects = () => {
          title: "Z-Scouts",
          description: "An innovative sports networking platform that bridges the gap between grassroots players, scouts, and professional clubs. It provides aspiring athletes with a dedicated space to showcase their talent, gain visibility, and create opportunities for career advancement in football.",
          logo: zScoutsLogo,
-         technologies: ["React Native", "Firebase", "TypeScript", "Redux"],
+         technologies: ["React Js", "Css3", "Axios", "Redux"],
          liveLink: "https://z-scoutsf.vercel.app/",
          githubLink: "https://github.com/Dev-caezar/ZScouts"
       },
@@ -55,6 +55,7 @@ const Projects = () => {
 
    return (
       <div
+         id='projects'
          className={`w-full py-10 flex flex-col items-center justify-center transition-colors duration-500
          ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}
       >
@@ -91,7 +92,7 @@ const Projects = () => {
                      >
                         {project.title}
                      </h3>
-                     <p className="text-gray-700 dark:text-gray-300 text-sm mb-4 text-center">
+                     <p className={`${!isDarkMode ? 'text-black dark' : 'text-gray-300'} text-sm mb-4 text-center`}>
                         {project.description}
                      </p>
 
@@ -121,7 +122,7 @@ const Projects = () => {
                            href={project.githubLink}
                            target="_blank"
                            rel="noopener noreferrer"
-                           className={`flex items-center gap-1 text-gray-800 dark:text-gray-200 text-sm font-medium transition-colors duration-200 hover:text-gray-600 dark:hover:text-gray-400`}
+                           className={`flex items-center gap-1 text-gray-200 dark:text-gray-700 text-sm font-medium transition-colors duration-200 hover:text-gray-600 dark:hover:text-gray-400`}
                         >
                            <FaGithub />
                            GitHub
