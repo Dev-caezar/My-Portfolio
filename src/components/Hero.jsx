@@ -132,7 +132,7 @@ const Hero = () => {
             className="mt-8 flex flex-col sm:flex-row items-center gap-4"
             variants={textVariants}>
             <motion.a
-              href="../assets/image/my_resume.pdf"
+              href="/my_resume.pdf"
               download="Oko-Christian-CV"
               className="flex items-center gap-2 px-8 py-4 text-lg font-medium rounded-full text-white transition-colors duration-300 bg-purple-700 hover:bg-purple-800"
               variants={buttonVariants}>
