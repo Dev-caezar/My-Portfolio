@@ -6,7 +6,7 @@ import myself from "../assets/image/myself.jpg";
 import { FaLinkedin, FaGithub, FaPaperPlane } from "react-icons/fa";
 
 const Hero = () => {
-  const isDarkMode = useSelector(state => state.theme.isDarkMode);
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
 
   const phrases = ["Frontend Developer", "React Enthusiast"];
   const [displayedText, setDisplayedText] = useState("");
@@ -33,7 +33,7 @@ const Hero = () => {
     setDisplayedText(updatedText);
 
     if (isDeleting) {
-      setTypingSpeed(prevSpeed => prevSpeed / 2);
+      setTypingSpeed((prevSpeed) => prevSpeed / 2);
     }
 
     if (!isDeleting && updatedText === fullText) {
@@ -84,7 +84,8 @@ const Hero = () => {
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-      }}>
+      }}
+    >
       <div
         className="absolute inset-0 z-10 flex items-center md:items-end"
         style={{
@@ -92,11 +93,13 @@ const Hero = () => {
             ? "rgba(0, 0, 0, 0.55)"
             : "linear-gradient(to bottom, rgba(255,255,255,0.85), rgba(255,255,255,0.65))",
           backdropFilter: "blur(4px)",
-        }}></div>
+        }}
+      ></div>
 
       <div
         className="relative z-20 flex flex-col justify-center items-center text-center px-6 md:px-12 mt-6 md:mt-0"
-        style={{ color: isDarkMode ? "#FFFFFF" : "#111827" }}>
+        style={{ color: isDarkMode ? "#FFFFFF" : "#111827" }}
+      >
         <motion.img
           src={myself}
           alt="Oko Christian"
@@ -111,11 +114,13 @@ const Hero = () => {
           className="flex flex-col items-center mt-6"
           variants={textVariants}
           initial="hidden"
-          animate="visible">
+          animate="visible"
+        >
           <h1 className="text-xl md:text-4xl font-bold">Oko Christian</h1>
           <h2
             className="text-2xl md:text-5xl font-semibold mt-2"
-            style={{ color: isDarkMode ? "#A5B4FC" : "#6D28D9" }}>
+            style={{ color: isDarkMode ? "#A5B4FC" : "#6D28D9" }}
+          >
             {displayedText}
             <span className="animate-pulse">|</span>
           </h2>
@@ -130,12 +135,14 @@ const Hero = () => {
 
           <motion.div
             className="mt-8 flex flex-col sm:flex-row items-center gap-4"
-            variants={textVariants}>
+            variants={textVariants}
+          >
             <motion.a
-              href="/my_resume.pdf"
+              href="/Oko-Christian-CV.docx"
               download="Oko-Christian-CV"
               className="flex items-center gap-2 px-8 py-4 text-lg font-medium rounded-full text-white transition-colors duration-300 bg-purple-700 hover:bg-purple-800"
-              variants={buttonVariants}>
+              variants={buttonVariants}
+            >
               <FaPaperPlane />
               Download CV
             </motion.a>
@@ -145,14 +152,16 @@ const Hero = () => {
                 href="http://linkedin.com/in/oko-christian-aa7262352"
                 target="_blank"
                 rel="noopener noreferrer"
-                variants={buttonVariants}>
+                variants={buttonVariants}
+              >
                 <FaLinkedin className="text-3xl hover:text-purple-500 transition-colors" />
               </motion.a>
               <motion.a
                 href="https://github.com/Dev-caezar"
                 target="_blank"
                 rel="noopener noreferrer"
-                variants={buttonVariants}>
+                variants={buttonVariants}
+              >
                 <FaGithub className="text-3xl hover:text-purple-500 transition-colors" />
               </motion.a>
             </div>
