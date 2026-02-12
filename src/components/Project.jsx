@@ -69,7 +69,7 @@ const Projects = () => {
         "Express",
         "MongoDB",
       ],
-      liveLink: "https://aroura.vercel.app/",
+      liveLink: "https://aroura-two.vercel.app/",
       githubLink: "https://github.com/Dev-caezar/aroura",
     },
   ];
