@@ -87,7 +87,7 @@ const Header = () => {
     <nav
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ease-in-out px-6 md:px-0
+      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ease-in-out 
         ${showBackground ? `py-4 ${currentTheme.scrolledBg}` : "py-4 bg-transparent"}
       `}
     >
