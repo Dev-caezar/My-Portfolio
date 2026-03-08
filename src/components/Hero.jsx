@@ -126,12 +126,10 @@ const Hero = () => {
             <span className="animate-pulse">|</span>
           </h2>
           <p className="mt-6 text-[15px] md:text-lg max-w-2xl leading-relaxed">
-            Welcome to my portfolio! I'm a passionate frontend developer
-            specializing in building responsive and scalable web applications.
-            My expertise lies in modern technologies like React, and I am
-            currently expanding my skills into mobile development using React
-            Native. I am committed to delivering high-quality solutions that
-            focus on performance, user experience, and clean, maintainable code.
+            Welcome to my portfolio! I'm a frontend developer focused on
+            building responsive and scalable web applications with React. I'm
+            also expanding into mobile development using React Native, with a
+            strong focus on performance, user experience, and clean code.
           </p>
 
           <motion.div
