@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
-import { FaPaperPlane } from "react-icons/fa";
+import { FaPaperPlane, FaSpinner } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 const Contact = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
@@ -47,13 +48,29 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const API_BASE_URL = "https://email-service-vu7f.onrender.com/email";
-    if (validateForm()) {
-      try {
-        const response = await axios.post(API_BASE_URL, formData);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error.data.message);
-      }
+
+    if (!validateForm()) return;
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post(API_BASE_URL, formData);
+      toast.success("Message sent successfully!");
+    } catch (error) {
+      const errorMsg =
+        error.response?.data?.message ||
+        "Something went wrong. Please try again.";
+      toast.error(errorMsg);
+      console.error(error);
+    } finally {
+      setLoading(false);
+      setFormData({
+        fullname: "",
+        email: "",
+        subject: "",
+        message: "",
+        myEmail: "okochristian6@gmail.com",
+      });
     }
   };
 
@@ -74,9 +91,9 @@ const Contact = () => {
     <section
       id="contact"
       className={`w-full py-24 transition-colors duration-500 overflow-hidden
-         ${isDarkMode ? "bg-gray-950 text-white" : "bg-white text-black"}`}
+          ${isDarkMode ? "bg-gray-950 text-white" : "bg-white text-black"}`}
     >
-      <Toaster />
+      <Toaster position="bottom-right" reverseOrder={false} />
       <div className="max-w-6xl mx-auto px-6">
         <motion.div
           variants={containerVariants}
@@ -113,7 +130,7 @@ const Contact = () => {
                 Direct Email
               </p>
               <a
-                href="mailto:your.email@example.com"
+                href="mailto:okochristian6@gmail.com"
                 className="text-xl font-medium hover:text-purple-500 transition-colors"
               >
                 okochristian6@gmail.com
@@ -122,23 +139,23 @@ const Contact = () => {
           </div>
 
           <motion.div variants={itemVariants} className="lg:col-span-7">
-            <div className="space-y-12">
+            <form onSubmit={handleSubmit} className="space-y-12">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div className="relative group">
                   <input
                     type="text"
                     name="fullname"
+                    autoComplete="name"
                     value={formData.fullname}
                     onChange={handleChange}
                     placeholder=" "
                     className={`peer w-full bg-transparent border-b py-3 focus:outline-none transition-colors
-                                 ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
+                                  ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
                   />
                   <label
-                    htmlFor="name"
                     className={`absolute left-0 top-3 text-[10px] uppercase tracking-widest font-bold opacity-40 transition-all pointer-events-none
-                                 peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
-                                 peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
+                                  peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
+                                  peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
                   >
                     Your Name
                   </label>
@@ -148,17 +165,17 @@ const Contact = () => {
                   <input
                     type="email"
                     name="email"
+                    autoComplete="email"
                     value={formData.email}
                     onChange={handleChange}
                     placeholder=" "
                     className={`peer w-full bg-transparent border-b py-3 focus:outline-none transition-colors
-                                 ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
+                                  ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
                   />
                   <label
-                    htmlFor="email"
                     className={`absolute left-0 top-3 text-[10px] uppercase tracking-widest font-bold opacity-40 transition-all pointer-events-none
-                                 peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
-                                 peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
+                                  peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
+                                  peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
                   >
                     Email Address
                   </label>
@@ -173,10 +190,9 @@ const Contact = () => {
                   onChange={handleChange}
                   placeholder=" "
                   className={`peer w-full bg-transparent border-b py-3 focus:outline-none transition-colors
-                              ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
+                               ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
                 />
                 <label
-                  htmlFor="subject"
                   className={`absolute left-0 top-3 text-[10px] uppercase tracking-widest font-bold opacity-40 transition-all pointer-events-none
                               peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
                               peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
@@ -193,10 +209,9 @@ const Contact = () => {
                   rows="4"
                   placeholder=" "
                   className={`peer w-full bg-transparent border-b py-3 focus:outline-none transition-colors resize-none
-                              ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
+                               ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
                 ></textarea>
                 <label
-                  htmlFor="message"
                   className={`absolute left-0 top-3 text-[10px] uppercase tracking-widest font-bold opacity-40 transition-all pointer-events-none
                               peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
                               peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
@@ -207,14 +222,25 @@ const Contact = () => {
 
               <div className="flex justify-start pt-4">
                 <button
-                  onClick={handleSubmit}
-                  className="group flex items-center gap-4 py-4 px-10 rounded-full bg-purple-600 text-white font-bold uppercase text-[11px] tracking-[0.2em] hover:bg-purple-700 transition-all shadow-lg shadow-purple-500/20"
+                  type="submit"
+                  disabled={loading}
+                  className={`group flex items-center gap-4 py-4 px-10 rounded-full bg-purple-600 text-white font-bold uppercase text-[11px] tracking-[0.2em] transition-all shadow-lg shadow-purple-500/20 
+                    ${loading ? "opacity-70 cursor-not-allowed" : "hover:bg-purple-700 active:scale-95"}`}
                 >
-                  Send Discovery
-                  <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                  {loading ? (
+                    <>
+                      Sending...
+                      <FaSpinner className="animate-spin" />
+                    </>
+                  ) : (
+                    <>
+                      Send Discovery
+                      <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                    </>
+                  )}
                 </button>
               </div>
-            </div>
+            </form>
           </motion.div>
         </motion.div>
       </div>

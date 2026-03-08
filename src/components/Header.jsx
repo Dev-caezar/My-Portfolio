@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { HiMenu } from "react-icons/hi";
+import { HiMenu, HiX } from "react-icons/hi"; // Added HiX for better "Close" state
+import { motion, AnimatePresence } from "framer-motion"; // For smooth mobile transitions
+import logo from "../assets/image/logo.png";
 
 const themeStyles = {
   light: {
     scrolledBg: "bg-white/90 backdrop-blur-md shadow-sm",
     text: "text-gray-800 hover:text-purple-700",
     line: "bg-purple-700",
-    mobileButton: "border-gray-300 bg-gray-100 text-purple-800",
+    mobileButton: "border-gray-200 bg-gray-50 text-gray-800",
     mobileMenu: "bg-white",
   },
   dark: {
     scrolledBg: "bg-gray-950/80 backdrop-blur-md shadow-lg",
-    text: "text-gray-200 hover:text-indigo-400",
-    line: "bg-indigo-400",
-    mobileButton: "border-gray-700 bg-gray-900 text-gray-200",
-    mobileMenu: "bg-gray-900",
+    text: "text-gray-200 hover:text-purple-400",
+    line: "bg-purple-400",
+    mobileButton: "border-gray-800 bg-gray-900 text-gray-200",
+    mobileMenu: "bg-gray-950",
   },
 };
 
@@ -26,7 +28,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const navTitles = ["Home", "About", "Projects", "Experience", "Contact"];
+  const navTitles = ["Home", "About", "Projects", "Experience"];
   const currentTheme = isDarkMode ? themeStyles.dark : themeStyles.light;
 
   useEffect(() => {
@@ -85,16 +87,20 @@ const Header = () => {
     <nav
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ease-in-out px-6 md:px-12
-        ${showBackground ? `py-4 ${currentTheme.scrolledBg}` : "py-8 bg-transparent"}
+      className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ease-in-out px-6 md:px-0
+        ${showBackground ? `py-4 ${currentTheme.scrolledBg}` : "py-4 bg-transparent"}
       `}
     >
-      <div className="max-w-6xl mx-auto flex justify-between items-center">
+      <div className="max-w-[90%] mx-auto flex justify-between items-center">
         <div
           onClick={() => handleNavClick("Home")}
-          className={`text-xl font-bold cursor-pointer transition-colors ${currentTheme.text}`}
+          className="cursor-pointer transition-transform hover:scale-105 active:scale-95 flex items-center"
         >
-          Oko Christian<span className="text-purple-500">.</span>
+          <img
+            src={logo}
+            alt="Logo"
+            className="h-12 md:h-14 w-auto object-contain"
+          />
         </div>
 
         <div className="hidden md:flex items-center space-x-10">
@@ -102,7 +108,7 @@ const Header = () => {
             <h4
               key={index}
               onClick={() => handleNavClick(title)}
-              className={`text-[11px] uppercase tracking-[0.2em] font-bold cursor-pointer relative pb-1 transition-colors duration-300 ${currentTheme.text} group`}
+              className={`text-[11px] uppercase tracking-[0.25em] font-bold cursor-pointer relative pb-1 transition-colors duration-300 ${currentTheme.text} group`}
             >
               {title}
               <span
@@ -112,40 +118,62 @@ const Header = () => {
               ></span>
             </h4>
           ))}
+
+          <button
+            onClick={() => handleNavClick("Contact")}
+            className="bg-purple-600 text-white px-6 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-purple-700 transition-all shadow-lg shadow-purple-500/20"
+          >
+            Hire Me
+          </button>
         </div>
 
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className={`md:hidden flex items-center space-x-2 py-2 px-5 rounded-full border transition-all duration-300 ${currentTheme.mobileButton}`}
+          className={`md:hidden flex items-center space-x-2 py-2 px-5 rounded-full border transition-all duration-300 shadow-sm ${currentTheme.mobileButton}`}
         >
-          <span className="text-xs font-bold uppercase tracking-widest">
+          <span className="text-[10px] font-black uppercase tracking-widest">
             {isMenuOpen ? "Close" : "Menu"}
           </span>
-          <HiMenu
-            className={`w-4 h-4 transition-transform ${isMenuOpen ? "rotate-90" : ""}`}
-          />
+          {isMenuOpen ? (
+            <HiX className="w-4 h-4" />
+          ) : (
+            <HiMenu className="w-4 h-4" />
+          )}
         </button>
       </div>
 
-      {isMenuOpen && (
-        <div
-          className={`absolute top-full left-0 w-full shadow-2xl border-t border-gray-100 dark:border-gray-800 py-8 px-6 md:hidden ${currentTheme.mobileMenu}`}
-        >
-          <div className="flex flex-col space-y-6">
-            {navTitles.map((title, index) => (
-              <h4
-                key={index}
-                onClick={() => handleNavClick(title)}
-                className={`text-lg font-medium cursor-pointer transition-colors duration-200 ${
-                  activeTitle === title ? "text-purple-500" : currentTheme.text
-                }`}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className={`absolute top-full left-0 w-full shadow-2xl border-t border-gray-100 dark:border-gray-800 py-10 px-8 md:hidden ${currentTheme.mobileMenu}`}
+          >
+            <div className="flex flex-col space-y-8">
+              {navTitles.map((title, index) => (
+                <h4
+                  key={index}
+                  onClick={() => handleNavClick(title)}
+                  className={`text-xl font-bold tracking-tight cursor-pointer transition-colors duration-200 ${
+                    activeTitle === title
+                      ? "text-purple-500"
+                      : currentTheme.text
+                  }`}
+                >
+                  {title}
+                </h4>
+              ))}
+              <button
+                onClick={() => handleNavClick("Contact")}
+                className="w-full bg-purple-600 text-white py-4 rounded-xl font-bold text-sm tracking-widest uppercase"
               >
-                {title}
-              </h4>
-            ))}
-          </div>
-        </div>
-      )}
+                Let's Talk
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
