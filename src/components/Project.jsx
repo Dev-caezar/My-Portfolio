@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { motion } from "framer-motion";
-import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FaExternalLinkAlt,
+  FaGithub,
+  FaTimes,
+  FaChevronLeft,
+  FaChevronRight,
+  FaArrowRight,
+} from "react-icons/fa";
+
+// Replace with your actual paths
 import bookTrackerLogo from "../assets/image/book-tracker.png";
 import zScoutsLogo from "../assets/image/zscouts.png";
 import quicklahLogo from "../assets/image/quicklah.png";
@@ -10,47 +19,73 @@ import arouraLogo from "../assets/image/aruora.png";
 
 const Projects = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const projectsPerPage = 3;
 
   const projects = [
     {
       title: "Book Management Tracker",
       description:
-        "A thoughtfully designed reading companion that empowers book lovers to effectively track their progress, curate personalized book libraries, and set meaningful reading goals. With streamlined organization and progress visualization, the tool keeps readers motivated and on track toward their literary aspirations.",
+        "A thoughtfully designed reading companion that empowers book lovers to track progress, manage libraries, and set reading goals.",
       logo: bookTrackerLogo,
       technologies: ["React", "Node.js", "Express", "MongoDB"],
+      responsibilities: [
+        "Built responsive React components",
+        "Integrated book tracking APIs on the frontend",
+        "Implemented UI/UX features for tracking progress",
+        "Ensured cross-browser compatibility and responsiveness",
+      ],
       liveLink: "https://book-management-tracker.vercel.app/",
       githubLink: "https://github.com/Dev-caezar/book-management-tracker",
     },
     {
       title: "Z-Scouts",
       description:
-        "An innovative sports networking platform that bridges the gap between grassroots players, scouts, and professional clubs. It provides aspiring athletes with a dedicated space to showcase their talent, gain visibility, and create opportunities for career advancement in football.",
+        "A sports networking platform connecting grassroots players, scouts, and professional clubs.",
       logo: zScoutsLogo,
-      technologies: ["React Js", "Css3", "Axios", "Redux"],
+      technologies: ["React Js", "CSS3", "Axios", "Redux"],
+      responsibilities: [
+        "Developed responsive UI components using React",
+        "Managed global state with Redux",
+        "Integrated APIs to display player and club information",
+        "Optimized user experience and navigation flows",
+      ],
       liveLink: "https://z-scoutsf.vercel.app/",
       githubLink: "https://github.com/Dev-caezar/ZScouts",
     },
     {
       title: "Quicklah",
       description:
-        "A modern food delivery platform designed to optimize the connection between restaurants and customers. It features real-time order tracking, efficient driver management, and an intuitive interface that ensures a seamless and reliable dining experience.",
+        "A modern food delivery platform with real-time order tracking and driver management.",
       logo: quicklahLogo,
       technologies: ["React.js", "Tailwind CSS", "Redux", "Axios"],
+      responsibilities: [
+        "Implemented interactive UI components with React and Tailwind CSS",
+        "Managed frontend state using Redux",
+        "Integrated real-time order APIs for live tracking",
+        "Ensured seamless UX for customers and drivers",
+      ],
       liveLink: "https://quicklah.vercel.app/",
       githubLink: "https://github.com/Quicklah/Quicklah",
     },
     {
       title: "DivinusGratia",
       description:
-        "A web application for a UK-based cleaning service, allowing users to book services, view packages, and manage appointments. The backend is powered by **Square** for bookings, payments, and service management, while the frontend uses modern technologies to deliver a responsive, clean, and seamless user experience.",
+        "A UK-based cleaning service app for booking services, viewing packages, and managing appointments.",
       logo: divinusGratiaLogo,
       technologies: [
         "React",
         "Next.js",
         "Tailwind CSS",
         "Zustand",
-        "Styled Components",
         "Square API",
+      ],
+      responsibilities: [
+        "Built responsive pages with Next.js and Tailwind CSS",
+        "Managed client-side state using Zustand",
+        "Integrated Square API for frontend bookings",
+        "Ensured clean and maintainable UI components",
       ],
       liveLink: "https://divinusgratia.vercel.app/",
       githubLink: "https://github.com/Dev-caezar/divinusgratia",
@@ -58,119 +93,209 @@ const Projects = () => {
     {
       title: "Aroura",
       description:
-        "A full-stack fashion e-commerce application delivering a seamless shopping experience. Users can browse products, filter categories, manage carts, and complete purchases. The backend handles product management, orders, and user authentication, while the frontend emphasizes performance, responsive design, and maintainable UI components.",
+        "A fashion e-commerce app where users browse products, filter categories, manage carts, and make purchases.",
       logo: arouraLogo,
-      technologies: [
-        "React",
-        "Next.js",
-        "Tailwind CSS",
-        "Zustand",
-        "Node.js",
-        "Express",
-        "MongoDB",
+      technologies: ["React", "Next.js", "Tailwind CSS", "Node.js", "MongoDB"],
+      responsibilities: [
+        "Developed responsive product and category pages",
+        "Implemented client-side state management with Zustand",
+        "Optimized UI components for performance",
+        "Ensured smooth UX interactions across devices",
       ],
       liveLink: "https://aroura-two.vercel.app/",
       githubLink: "https://github.com/Dev-caezar/aroura",
     },
   ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-  };
+  const currentProjects = projects.slice(
+    (currentPage - 1) * projectsPerPage,
+    currentPage * projectsPerPage,
+  );
+  const totalPages = Math.ceil(projects.length / projectsPerPage);
 
   return (
-    <div
+    <section
       id="projects"
-      className={`w-full py-10 flex flex-col items-center justify-center transition-colors duration-500
-         ${isDarkMode ? "bg-gray-900" : "bg-gray-100"}`}
+      className={`w-full py-24 ${isDarkMode ? "bg-gray-950 text-white" : "bg-white text-black"}`}
     >
-      <div className="w-full max-w-6xl px-4 text-center">
-        <h2
-          className={`text-4xl font-bold mb-8
-                  ${isDarkMode ? "text-white" : "text-black"}`}
-        >
-          My Projects
-        </h2>
+      <div className="max-w-6xl mx-auto px-6">
+        <header className="mb-16">
+          {/* <h2 className="text-[10px] uppercase tracking-[0.4em] font-bold opacity-40 mb-4">
+            Portfolio
+          </h2> */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+            <h3 className="text-4xl font-light italic">My Projects</h3>
+            <p className="text-xs font-bold opacity-40 uppercase tracking-widest">
+              Page {currentPage} of {totalPages}
+            </p>
+          </div>
+        </header>
 
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          {projects.map((project, index) => (
-            <motion.div
-              key={index}
-              className={`p-6 rounded-2xl shadow-lg transition-colors duration-500 transform hover:scale-105 hover:shadow-xl
-                     ${isDarkMode ? "bg-gray-800" : "bg-white"}`}
-              variants={cardVariants}
-            >
-              <img
-                src={project.logo}
-                alt={`${project.title} logo`}
-                className="w-14 h-14 mx-auto mb-4 object-contain rounded-full border-2 border-gray-300 dark:border-gray-600 p-2 bg-white"
-              />
-              <h3
-                className={`text-2xl font-semibold mb-2 text-center
-                           ${isDarkMode ? "text-indigo-400" : "text-purple-700"}`}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <AnimatePresence mode="wait">
+            {currentProjects.map((project, index) => (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ delay: index * 0.1 }}
+                onClick={() => setSelectedProject(project)}
+                className={`group p-8 rounded-3xl border transition-all cursor-pointer flex flex-col h-full ${
+                  isDarkMode
+                    ? "bg-gray-900/40 border-gray-800 hover:border-purple-500/50"
+                    : "bg-gray-50 border-gray-100 hover:bg-white hover:shadow-2xl"
+                }`}
               >
-                {project.title}
-              </h3>
-              <p
-                className={`${!isDarkMode ? "text-black dark" : "text-gray-300"} text-sm mb-4 text-center`}
-              >
-                {project.description}
-              </p>
-
-              <div className="flex flex-wrap justify-center gap-2 mb-4">
-                {project.technologies.map((tech, techIndex) => (
-                  <span
-                    key={techIndex}
-                    className={`text-xs font-medium px-3 py-1 rounded-full
-                              ${isDarkMode ? "bg-gray-700 text-gray-300" : "bg-gray-200 text-gray-700"}`}
+                <div className="flex justify-between items-start mb-8">
+                  <img
+                    src={project.logo}
+                    className="w-12 h-12 object-contain bg-white rounded-xl p-2 shadow-sm"
+                    alt=""
+                  />
+                  <div
+                    className={`p-2 rounded-full ${isDarkMode ? "bg-gray-800" : "bg-white"}`}
                   >
-                    {tech}
-                  </span>
-                ))}
-              </div>
+                    <FaArrowRight className="-rotate-45 group-hover:rotate-0 transition-transform duration-300 text-purple-500" />
+                  </div>
+                </div>
+                <h4 className="text-2xl font-medium mb-3">{project.title}</h4>
+                <p
+                  className={`text-sm font-light mb-8 line-clamp-3 ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+                >
+                  {project.description}
+                </p>
+                <div className="mt-auto flex flex-wrap gap-2">
+                  {project.technologies.slice(0, 3).map((tech) => (
+                    <span
+                      key={tech}
+                      className="text-[10px] uppercase tracking-widest font-bold opacity-40"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
 
-              <div className="flex justify-center items-center gap-4 mt-auto">
-                <a
-                  href={project.liveLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`flex items-center gap-1 text-purple-700 dark:text-indigo-400 text-sm font-medium transition-colors duration-200 hover:text-purple-500 dark:hover:text-indigo-300`}
+        {/* Pagination */}
+        <div className="flex justify-center items-center gap-6 mt-20">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="p-4 rounded-full border border-purple-500 disabled:opacity-10"
+          >
+            <FaChevronLeft size={12} />
+          </button>
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+            className="p-4 rounded-full border border-purple-500 disabled:opacity-10"
+          >
+            <FaChevronRight size={12} />
+          </button>
+        </div>
+      </div>
+
+      {/* Optimized Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-6">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProject(null)}
+              className="absolute inset-0 bg-black/95 backdrop-blur-md"
+            />
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 40 }}
+              className={`relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-[2rem] shadow-2xl ${isDarkMode ? "bg-gray-900 border border-gray-800" : "bg-white"}`}
+            >
+              <div className="sticky top-0 z-10 flex justify-end p-4 pointer-events-none">
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  className="p-4 rounded-full bg-gray-100 dark:bg-gray-800 pointer-events-auto shadow-lg"
                 >
-                  <FaExternalLinkAlt />
-                  Live
-                </a>
-                <a
-                  href={project.githubLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`flex items-center gap-1 text-gray-200 dark:text-gray-700 text-sm font-medium transition-colors duration-200 hover:text-gray-600 dark:hover:text-gray-400`}
-                >
-                  <FaGithub />
-                  GitHub
-                </a>
+                  <FaTimes size={18} />
+                </button>
+              </div>
+              <div className="px-6 pb-10 md:px-16 md:pb-16 -mt-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                  <div className="lg:col-span-5 text-center lg:text-left">
+                    <img
+                      src={selectedProject.logo}
+                      className="w-20 h-20 mx-auto lg:mx-0 mb-8 bg-white rounded-2xl p-3 shadow-xl"
+                      alt=""
+                    />
+                    <h3 className="text-3xl md:text-4xl font-bold mb-4">
+                      {selectedProject.title}
+                    </h3>
+                    <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-8">
+                      {selectedProject.technologies.map((tech) => (
+                        <span
+                          key={tech}
+                          className="text-[10px] px-3 py-1 rounded-full border border-purple-500/30 text-purple-500 font-bold uppercase"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-gray-100 dark:border-gray-800">
+                      <a
+                        href={selectedProject.liveLink}
+                        target="_blank"
+                        className="flex items-center justify-center gap-3 py-4 sm:py-0 text-xs font-bold uppercase tracking-widest text-purple-500"
+                      >
+                        Live <FaExternalLinkAlt />
+                      </a>
+                      <a
+                        href={selectedProject.githubLink}
+                        target="_blank"
+                        className="flex items-center justify-center gap-3 py-4 sm:py-0 text-xs font-bold uppercase tracking-widest opacity-60"
+                      >
+                        Code <FaGithub />
+                      </a>
+                    </div>
+                  </div>
+                  <div className="lg:col-span-7 space-y-10">
+                    <div>
+                      <h4 className="text-[10px] uppercase tracking-widest font-bold opacity-30 mb-4">
+                        The Challenge
+                      </h4>
+                      <p className="text-lg font-light leading-relaxed">
+                        {selectedProject.description}
+                      </p>
+                    </div>
+                    <div>
+                      <h4 className="text-[10px] uppercase tracking-widest font-bold opacity-30 mb-4">
+                        Contributions
+                      </h4>
+                      <ul className="space-y-4">
+                        {selectedProject.responsibilities.map((resp, i) => (
+                          <li
+                            key={i}
+                            className="flex items-start gap-4 text-sm font-light"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-1.5 shrink-0" />
+                            {resp}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </div>
+          </div>
+        )}
+      </AnimatePresence>
+    </section>
   );
 };
 

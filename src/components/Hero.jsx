@@ -78,7 +78,8 @@ const Hero = () => {
 
   return (
     <div
-      className="w-full h-[130vh] relative flex items-center md:items-center justify-center"
+      id="hero"
+      className="w-full h-[110vh] md:h-[130vh] relative flex items-center md:items-center justify-center"
       style={{
         backgroundImage: `url(${heroImage})`,
         backgroundSize: "cover",
@@ -90,7 +91,7 @@ const Hero = () => {
         className="absolute inset-0 z-10 flex items-center md:items-end"
         style={{
           background: isDarkMode
-            ? "rgba(0, 0, 0, 0.55)"
+            ? "rgba(0, 0, 0, 0.60)"
             : "linear-gradient(to bottom, rgba(255,255,255,0.85), rgba(255,255,255,0.65))",
           backdropFilter: "blur(4px)",
         }}

@@ -1,189 +1,190 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Experience = () => {
   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const [activeTab, setActiveTab] = useState("experience");
 
   const skills = [
-    { name: "HTML", level: 95, color: "bg-purple-600" },
-    { name: "CSS", level: 95, color: "bg-purple-500" },
-    { name: "JavaScript", level: 80, color: "bg-yellow-500" },
-    { name: "Tailwind CSS", level: 90, color: "bg-purple-500" },
-    { name: "Styled Components", level: 85, color: "bg-yellow-500" },
-    { name: "React JS", level: 95, color: "bg-purple-600" },
-    { name: "React Native", level: 20, color: "bg-red-600" },
-    { name: "Next.js", level: 70, color: "bg-green-500" },
-    { name: "Zustand", level: 60, color: "bg-blue-500" },
+    "HTML5 / CSS3",
+    "JavaScript (ES6+)",
+    "React JS",
+    "Next.js",
+    "Tailwind CSS",
+    "Styled-Component",
+    "React Native",
+    "Zustand",
+    "Node.js",
   ];
 
   const experiences = [
     {
       title: "Frontend Developer",
       company: "Quicklah (Startup Project)",
-      years: "2025 - till date",
+      years: "2025 - Present",
       description:
         "Contributing to the development of a startup project by building responsive user interfaces, optimizing performance, and collaborating with the product team to enhance user experience.",
     },
     {
       title: "Frontend Developer",
       company: "The Curve Africa",
-      years: "2024 - till date",
+      years: "2024 - Present",
       description:
         "Designed and developed responsive user interfaces for web applications, collaborating with a cross-functional team to deliver high-quality software products.",
     },
   ];
 
   const education = [
-    { title: "The Curve Africa", years: "October 2024 - April 2025" },
-    { title: "Expressway Senior High School", years: "2014 - 2019" },
+    {
+      title: "The Curve Africa",
+      institution: "Software Development",
+      years: "2023 — 2024",
+    },
+    {
+      title: "Expressway Senior High School",
+      institution: "SSCE",
+      years: "2013 — 2019",
+    },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        ease: "easeOut",
-      },
-    },
-  };
+  const activeData = activeTab === "experience" ? experiences : education;
 
   return (
     <div
       id="experience"
-      className={`w-full py-10 flex justify-center items-center transition-colors duration-500
-         ${isDarkMode ? "bg-gray-900" : "bg-gray-100"}`}
+      className={`w-full py-24 transition-colors duration-500 overflow-hidden ${
+        isDarkMode ? "bg-gray-950 text-white" : "bg-white text-black"
+      }`}
     >
-      <motion.div
-        className={`p-8 md:p-12 rounded-lg shadow-xl w-full max-w-6xl transition-colors duration-500
-            ${isDarkMode ? "bg-gray-800 text-gray-100" : "bg-white text-gray-800"}`}
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        <div className="flex flex-col md:flex-row md:items-start md:justify-around mb-8">
-          <div className="mb-6 md:mb-0">
-            <h2
-              className={`text-4xl font-bold ${isDarkMode ? "text-white" : "text-gray-800"}`}
-            >
-              Skills & Experience
-            </h2>
-          </div>
-          <div
-            className={`flex flex-row rounded-full p-1 shadow-inner max-w-sm w-full md:w-auto
-                  ${isDarkMode ? "bg-gray-200" : "bg-gray-200"}`}
+      <div className="max-w-5xl mx-auto px-6">
+        <header className="mb-16 md:mb-20">
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 0.5, y: 0 }}
+            className="text-[10px] uppercase tracking-[0.4em] font-bold mb-6"
           >
-            <button
-              onClick={() => setActiveTab("experience")}
-              className={`px-8 py-4 w-1/2 md:w-auto text-lg font-medium rounded-full transition-colors duration-300 cursor-pointer
-                     ${
-                       activeTab === "experience"
-                         ? "bg-purple-700 text-white shadow-md"
-                         : `${isDarkMode ? "text-purple-800" : "text-purple-800"}`
-                     }`}
-            >
-              Experience
-            </button>
-            <button
-              onClick={() => setActiveTab("education")}
-              className={`px-8 py-4 w-1/2 md:w-auto text-lg font-medium rounded-full transition-colors duration-300 cursor-pointer
-                     ${
-                       activeTab === "education"
-                         ? "bg-purple-700 text-white shadow-md"
-                         : `${isDarkMode ? "text-purple-800" : "text-purple-800"}`
-                     }`}
-            >
-              Education
-            </button>
-          </div>
-        </div>
+            Curriculum
+          </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          <div>
-            <h3
-              className={`text-2xl font-semibold mb-6 ${isDarkMode ? "text-white" : "text-gray-800"}`}
-            >
-              My Skills
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 md:gap-8">
+            <h3 className="text-4xl md:text-5xl font-light italic tracking-tight">
+              Skills & Path
             </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {skills.map((skill, index) => (
-                <div key={index}>
-                  <div className="flex justify-between items-center mb-1">
-                    <span
-                      className={`font-medium ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
-                    >
-                      {skill.name}
-                    </span>
-                    <span
-                      className={`text-sm ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}
-                    >
-                      {skill.level}%
-                    </span>
-                  </div>
-                  <div
-                    className={`w-full h-2 rounded-full ${isDarkMode ? "bg-gray-700" : "bg-gray-200"}`}
-                  >
+
+            <div className="flex flex-row gap-8 md:gap-10 border-b border-gray-200 dark:border-gray-800 w-full md:w-auto">
+              {["experience", "education"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`relative pb-3 text-[11px] uppercase tracking-[0.2em] font-bold transition-all cursor-pointer whitespace-nowrap ${
+                    activeTab === tab
+                      ? "opacity-100"
+                      : "opacity-30 hover:opacity-100"
+                  }`}
+                >
+                  {tab}
+                  {activeTab === tab && (
                     <motion.div
-                      className={`${skill.color} h-2 rounded-full`}
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${skill.level}%` }}
-                      transition={{ duration: 1.5 }}
-                      viewport={{ once: true }}
-                    ></motion.div>
-                  </div>
-                </div>
+                      layoutId="tabUnderline"
+                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-purple-500"
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 lg:gap-24">
+          <div className="md:col-span-4 order-2 md:order-1">
+            <h4 className="text-[10px] uppercase tracking-widest opacity-40 mb-10 font-bold">
+              Technical Stack
+            </h4>
+            <div className="flex flex-col">
+              {skills.map((skill, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  whileHover={{ x: 5 }}
+                  className="group flex items-center py-3 border-l border-gray-200 dark:border-gray-800 pl-6 hover:border-purple-500 transition-colors cursor-default"
+                >
+                  <span
+                    className={`text-lg font-light transition-colors ${
+                      isDarkMode
+                        ? "text-gray-400 group-hover:text-white"
+                        : "text-gray-600 group-hover:text-black"
+                    }`}
+                  >
+                    {skill}
+                  </span>
+                </motion.div>
               ))}
             </div>
           </div>
 
-          <div
-            className={`md:border-l ${isDarkMode ? "md:border-gray-700" : "md:border-gray-300"} md:pl-12`}
-          >
-            <h3 className="sr-only">Experience List</h3>
-            <div className="grid grid-cols-1 gap-8">
-              {(activeTab === "experience" ? experiences : education).map(
-                (item, index) => (
-                  <div key={index} className="flex flex-col">
-                    {item.title && (
-                      <h4
-                        className={`text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-800"}`}
-                      >
-                        {item.title}
-                      </h4>
-                    )}
-                    {item.company && (
-                      <p
-                        className={`text-lg font-semibold ${isDarkMode ? "text-purple-400" : "text-purple-700"}`}
-                      >
-                        {item.company}
-                      </p>
-                    )}
-                    {item.years && (
-                      <p
-                        className={`text-sm mb-2 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}
-                      >
+          <div className="md:col-span-8 order-1 md:order-2">
+            <h4 className="text-[10px] uppercase tracking-widest opacity-40 mb-10 font-bold">
+              {activeTab} Timeline
+            </h4>
+
+            <div className="relative border-l border-gray-200 dark:border-gray-800 ml-2 pl-8 md:pl-10 space-y-16">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.4 }}
+                >
+                  {activeData.map((item, index) => (
+                    <motion.div
+                      key={item.title + index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      className="relative mb-16 last:mb-0 group"
+                    >
+                      <div className="absolute -left-[37px] md:-left-[45px] top-2 flex items-center justify-center">
+                        <div className="w-2 h-2 rounded-full bg-purple-500 z-10" />
+                        <div className="absolute w-2 h-2 rounded-full bg-purple-500 animate-ping opacity-75" />
+                      </div>
+
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-purple-500 mb-3 block">
                         {item.years}
-                      </p>
-                    )}
-                    {item.description && (
+                      </span>
+
+                      <h5 className="text-2xl font-medium mb-1 tracking-tight">
+                        {item.title}
+                      </h5>
+
                       <p
-                        className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
+                        className={`text-sm font-medium mb-6 uppercase tracking-wider ${
+                          isDarkMode ? "text-gray-300" : "text-gray-700"
+                        }`}
                       >
-                        {item.description}
+                        {item.institution || item.company}
                       </p>
-                    )}
-                  </div>
-                ),
-              )}
+
+                      {item.description && (
+                        <p
+                          className={`text-base leading-relaxed font-light max-w-xl ${
+                            isDarkMode ? "text-gray-400" : "text-gray-600"
+                          }`}
+                        >
+                          {item.description}
+                        </p>
+                      )}
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };

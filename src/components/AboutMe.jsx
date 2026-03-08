@@ -58,8 +58,8 @@ const AboutMe = () => {
 
   return (
     <div
-      id="about" // 🔑 This connects to your navigation
-      className={`w-full min-h-screen py-16 flex flex-col items-center justify-center transition-colors duration-500 ${isDarkMode ? "bg-gray-900 text-gray-100" : "bg-white text-gray-900"}`}
+      id="about"
+      className={`w-full min-h-screen py-16 flex flex-col items-center justify-center transition-colors duration-500 ${isDarkMode ? "bg-gray-950 text-gray-100" : "bg-white text-gray-900"}`}
     >
       <div className="w-full max-w-4xl px-4 text-center">
         <motion.h2

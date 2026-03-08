@@ -1,112 +1,225 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { motion } from 'framer-motion';
-import { FaPaperPlane } from 'react-icons/fa';
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
+import { FaPaperPlane } from "react-icons/fa";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 const Contact = () => {
-   const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
+  const [formData, setFormData] = useState({
+    fullname: "",
+    email: "",
+    subject: "",
+    message: "",
+    myEmail: "okochristian6@gmail.com",
+  });
 
-   const containerBg = isDarkMode ? 'bg-gray-800' : 'bg-white';
-   const textPrimary = isDarkMode ? 'text-white' : 'text-gray-800';
-   const inputBg = isDarkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-800';
-   const inputBorder = isDarkMode ? 'border-gray-700' : 'border-gray-300';
-   const buttonBg = isDarkMode ? 'bg-purple-700 hover:bg-purple-800' : 'bg-purple-700 hover:bg-purple-800';
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-   const fadeInUp = {
-      hidden: { opacity: 0, y: 50 },
-      visible: {
-         opacity: 1,
-         y: 0,
-         transition: {
-            duration: 0.8,
-            ease: "easeOut"
-         }
+  const validateForm = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (
+      !formData.fullname.trim() ||
+      !formData.email.trim() ||
+      !formData.subject.trim() ||
+      !formData.message.trim()
+    ) {
+      toast.error("All fields are required");
+      return false;
+    }
+
+    if (!emailRegex.test(formData.email)) {
+      toast.error("Please enter a valid email address");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const API_BASE_URL = "https://email-service-vu7f.onrender.com/email";
+    if (validateForm()) {
+      try {
+        const response = await axios.post(API_BASE_URL, formData);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error.data.message);
       }
-   };
+    }
+  };
 
-   return (
-      <div
-         id='contact'
-         className={`w-full py-10 flex flex-col items-center justify-center transition-colors duration-500
-         ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}
-      >
-         <motion.div
-            className={`p-8 md:p-12 rounded-lg shadow-xl w-full max-w-5xl transition-colors duration-500 ${containerBg}`}
-            variants={fadeInUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-         >
-            <div className="text-center mb-8">
-               <h2 className={`text-4xl font-bold ${textPrimary}`}>
-                  Say Hello
-               </h2>
-               <p className={`mt-4 text-sm md:text-md max-w-2xl mx-auto
-                  ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Feel free to get in touch. Whether you have a project in mind, a question, or just want to say hi, I'll do my best to get back to you!
-               </p>
-            </div>
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2 },
+    },
+  };
 
-            <form className="w-full">
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  <div>
-                     <label htmlFor="name" className="block text-sm font-medium sr-only">Your Name</label>
-                     <input
-                        type="text"
-                        id="name"
-                        placeholder="Your Name"
-                        className={`w-full p-4 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-500
-                           ${inputBg} ${inputBorder}`}
-                     />
-                  </div>
-                  <div>
-                     <label htmlFor="email" className="block text-sm font-medium sr-only">Your Email</label>
-                     <input
-                        type="email"
-                        id="email"
-                        placeholder="Your Email"
-                        className={`w-full p-4 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-500
-                           ${inputBg} ${inputBorder}`}
-                     />
-                  </div>
-               </div>
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+  };
 
-               <div className="mb-6">
-                  <label htmlFor="subject" className="block text-sm font-medium sr-only">Subject</label>
+  return (
+    <section
+      id="contact"
+      className={`w-full py-24 transition-colors duration-500 overflow-hidden
+         ${isDarkMode ? "bg-gray-950 text-white" : "bg-white text-black"}`}
+    >
+      <Toaster />
+      <div className="max-w-6xl mx-auto px-6">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-16"
+        >
+          <div className="lg:col-span-5">
+            <motion.h2
+              variants={itemVariants}
+              className="text-[10px] uppercase tracking-[0.4em] font-bold opacity-40 mb-8"
+            >
+              Contact
+            </motion.h2>
+            <motion.h3
+              variants={itemVariants}
+              className="text-5xl md:text-6xl font-light italic tracking-tight mb-8"
+            >
+              Let’s build <br /> something{" "}
+              <span className="text-purple-500">great.</span>
+            </motion.h3>
+            <motion.p
+              variants={itemVariants}
+              className={`text-lg font-light leading-relaxed max-w-md ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+            >
+              I’m currently available for freelance work and full-time
+              opportunities. If you have a project in mind or just want to chat,
+              drop me a message.
+            </motion.p>
+
+            <motion.div variants={itemVariants} className="mt-12">
+              <p className="text-[10px] uppercase tracking-widest font-bold opacity-30 mb-2">
+                Direct Email
+              </p>
+              <a
+                href="mailto:your.email@example.com"
+                className="text-xl font-medium hover:text-purple-500 transition-colors"
+              >
+                okochristian6@gmail.com
+              </a>
+            </motion.div>
+          </div>
+
+          <motion.div variants={itemVariants} className="lg:col-span-7">
+            <div className="space-y-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div className="relative group">
                   <input
-                     type="text"
-                     id="subject"
-                     placeholder="Subject"
-                     className={`w-full p-4 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-500
-                        ${inputBg} ${inputBorder}`}
+                    type="text"
+                    name="fullname"
+                    value={formData.fullname}
+                    onChange={handleChange}
+                    placeholder=" "
+                    className={`peer w-full bg-transparent border-b py-3 focus:outline-none transition-colors
+                                 ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
                   />
-               </div>
-
-               <div className="mb-6">
-                  <label htmlFor="message" className="block text-sm font-medium sr-only">Message</label>
-                  <textarea
-                     id="message"
-                     placeholder="Your Message"
-                     rows="6"
-                     className={`w-full p-4 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-500
-                        ${inputBg} ${inputBorder}`}
-                  ></textarea>
-               </div>
-
-               <div className="flex justify-center">
-                  <button
-                     type="submit"
-                     className={`flex items-center gap-2 px-8 py-4 text-lg font-medium rounded-full text-white transition-colors duration-300
-                        ${buttonBg}`}
+                  <label
+                    htmlFor="name"
+                    className={`absolute left-0 top-3 text-[10px] uppercase tracking-widest font-bold opacity-40 transition-all pointer-events-none
+                                 peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
+                                 peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
                   >
-                     Send Message
-                     <FaPaperPlane />
-                  </button>
-               </div>
-            </form>
-         </motion.div>
+                    Your Name
+                  </label>
+                </div>
+
+                <div className="relative group">
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder=" "
+                    className={`peer w-full bg-transparent border-b py-3 focus:outline-none transition-colors
+                                 ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
+                  />
+                  <label
+                    htmlFor="email"
+                    className={`absolute left-0 top-3 text-[10px] uppercase tracking-widest font-bold opacity-40 transition-all pointer-events-none
+                                 peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
+                                 peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
+                  >
+                    Email Address
+                  </label>
+                </div>
+              </div>
+
+              <div className="relative group">
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder=" "
+                  className={`peer w-full bg-transparent border-b py-3 focus:outline-none transition-colors
+                              ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
+                />
+                <label
+                  htmlFor="subject"
+                  className={`absolute left-0 top-3 text-[10px] uppercase tracking-widest font-bold opacity-40 transition-all pointer-events-none
+                              peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
+                              peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
+                >
+                  Subject
+                </label>
+              </div>
+
+              <div className="relative group">
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows="4"
+                  placeholder=" "
+                  className={`peer w-full bg-transparent border-b py-3 focus:outline-none transition-colors resize-none
+                              ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
+                ></textarea>
+                <label
+                  htmlFor="message"
+                  className={`absolute left-0 top-3 text-[10px] uppercase tracking-widest font-bold opacity-40 transition-all pointer-events-none
+                              peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
+                              peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
+                >
+                  Your Message
+                </label>
+              </div>
+
+              <div className="flex justify-start pt-4">
+                <button
+                  onClick={handleSubmit}
+                  className="group flex items-center gap-4 py-4 px-10 rounded-full bg-purple-600 text-white font-bold uppercase text-[11px] tracking-[0.2em] hover:bg-purple-700 transition-all shadow-lg shadow-purple-500/20"
+                >
+                  Send Discovery
+                  <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
-   );
+    </section>
+  );
 };
 
 export default Contact;
