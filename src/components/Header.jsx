@@ -155,7 +155,7 @@ const Header = () => {
                 <h4
                   key={index}
                   onClick={() => handleNavClick(title)}
-                  className={`text-xl font-bold tracking-tight cursor-pointer transition-colors duration-200 ${
+                  className={`text-md font-[500] tracking-tight cursor-pointer transition-colors duration-200 ${
                     activeTitle === title
                       ? "text-purple-500"
                       : currentTheme.text
