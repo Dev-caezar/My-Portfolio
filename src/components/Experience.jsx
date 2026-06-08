@@ -1,11 +1,48 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useMemo, useRef } from "react";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
 
 const Experience = () => {
-  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const [activeTab, setActiveTab] = useState("experience");
 
+  // 1. Background Interaction Logic
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const glowX = useSpring(mouseX, { stiffness: 120, damping: 25 });
+  const glowY = useSpring(mouseY, { stiffness: 120, damping: 25 });
+
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 30 }).map((_, i) => ({
+        id: i,
+        size: Math.random() * 2 + 1,
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`,
+        duration: Math.random() * 5 + 3,
+        delay: Math.random() * -10,
+      })),
+    [],
+  );
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
+    e.currentTarget.style.setProperty(
+      "--bg-mouse-x",
+      `${e.clientX - rect.left}px`,
+    );
+    e.currentTarget.style.setProperty(
+      "--bg-mouse-y",
+      `${e.clientY - rect.top}px`,
+    );
+  };
+
+  // Content data
   const skills = [
     "HTML5 / CSS3",
     "JavaScript (ES6+)",
@@ -17,77 +54,112 @@ const Experience = () => {
     "Zustand",
     "Node.js",
   ];
-
   const experiences = [
     {
       title: "Frontend Developer",
-      company: "Quicklah (Startup Project)",
+      organization: "Quicklah",
       years: "2025 - Present",
       description:
-        "Contributing to the development of a startup project by building responsive user interfaces, optimizing performance, and collaborating with the product team to enhance user experience.",
+        "Leading frontend implementation for a startup product, building performant user interfaces, integrating backend services, and improving overall user experience.",
     },
     {
       title: "Frontend Developer",
-      company: "The Curve Africa",
+      organization: "The Curve Africa",
       years: "2024 - Present",
       description:
-        "Designed and developed responsive user interfaces for web applications, collaborating with a cross-functional team to deliver high-quality software products.",
+        "Developed responsive web applications and collaborated within cross-functional teams to translate business requirements into scalable frontend solutions.",
     },
   ];
-
   const education = [
     {
-      title: "The Curve Africa",
-      institution: "Software Development",
+      title: "Software Development",
+      organization: "The Curve Africa",
       years: "2023 — 2024",
+      description:
+        "Completed intensive software engineering training focused on modern web development, JavaScript, React, backend fundamentals, version control, and industry-standard development practices.",
     },
     {
-      title: "Expressway Senior High School",
-      institution: "SSCE",
+      title: "Senior Secondary School Certificate (SSCE)",
+      organization: "Expressway Senior High School",
       years: "2013 — 2019",
+      description:
+        "Completed secondary education with a strong academic foundation and developed an early interest in technology and problem-solving.",
     },
   ];
 
   const activeData = activeTab === "experience" ? experiences : education;
 
   return (
-    <div
+    <section
       id="experience"
-      className={`w-full py-24 transition-colors duration-500 overflow-hidden ${
-        isDarkMode ? "bg-gray-950 text-white" : "bg-white text-black"
-      }`}
+      onMouseMove={handleMouseMove}
+      className="w-full py-24 bg-[#05030a] text-white relative overflow-hidden group/section"
     >
-      <div className="max-w-5xl mx-auto px-6">
-        <header className="mb-16 md:mb-20">
-          <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 0.5, y: 0 }}
-            className="text-[10px] uppercase tracking-[0.4em] font-bold mb-6"
-          >
-            Curriculum
-          </motion.h2>
+      {/* 2. Starfield & Grid Background Layer */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-40">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "radial-gradient(white 0.5px, transparent 0.5px)",
+            backgroundSize: "50px 50px",
+          }}
+        ></div>
+        {particles.map((p) => (
+          <motion.div
+            key={p.id}
+            className="absolute bg-white rounded-full"
+            style={{ width: p.size, height: p.size, top: p.top, left: p.left }}
+            animate={{ opacity: [0.2, 0.8, 0.2] }}
+            transition={{
+              duration: p.duration,
+              repeat: Infinity,
+              delay: p.delay,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 md:gap-8">
-            <h3 className="text-4xl md:text-5xl font-light italic tracking-tight">
-              Skills & Path
+      {/* 3. Mouse Follow Glow */}
+      <motion.div
+        className="absolute w-[600px] h-[600px] rounded-full bg-purple-600/10 blur-[140px] pointer-events-none opacity-0 group-hover/section:opacity-100 transition-opacity duration-500 mix-blend-screen z-0"
+        style={{ x: glowX, y: glowY, translateX: "-50%", translateY: "-50%" }}
+      />
+
+      {/* 4. Interactive Grid */}
+      <div
+        className="absolute inset-0 bg-[radial-gradient(#1e1538_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none"
+        style={{
+          backgroundPosition:
+            "calc(50% + (var(--bg-mouse-x, 0px) * 0.02)) calc(50% + (var(--bg-mouse-y, 0px) * 0.02))",
+        }}
+      />
+
+      {/* 5. Main Content */}
+      <div className="relative z-10 max-w-5xl mx-auto px-6">
+        <header className="mb-20">
+          <div className="inline-flex items-center gap-3 mb-3 md:mb-4">
+            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-purple-500 shadow-[0_0_10px_#791cf3]" />
+            <h2 className="text-[10px] md:text-xs uppercase tracking-[0.4em] font-black text-purple-400">
+              03 // JOURNEY
+            </h2>
+          </div>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-purple-900/30 pb-4">
+            <h3 className="text-4xl font-bold tracking-tight">
+              Experience & Education
             </h3>
-
-            <div className="flex flex-row gap-8 md:gap-10 border-b border-gray-200 dark:border-gray-800 w-full md:w-auto">
+            <div className="flex gap-10">
               {["experience", "education"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`relative pb-3 text-[11px] uppercase tracking-[0.2em] font-bold transition-all cursor-pointer whitespace-nowrap ${
-                    activeTab === tab
-                      ? "opacity-100"
-                      : "opacity-30 hover:opacity-100"
-                  }`}
+                  className={`text-[11px] uppercase tracking-[0.2em] font-bold transition-all ${activeTab === tab ? "text-white" : "text-gray-600 hover:text-white"}`}
                 >
                   {tab}
                   {activeTab === tab && (
                     <motion.div
                       layoutId="tabUnderline"
-                      className="absolute bottom-0 left-0 right-0 h-[2px] bg-purple-500"
+                      className="h-[2px] bg-purple-500 mt-2"
                     />
                   )}
                 </button>
@@ -96,88 +168,43 @@ const Experience = () => {
           </div>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 lg:gap-24">
-          <div className="md:col-span-4 order-2 md:order-1">
-            <h4 className="text-[10px] uppercase tracking-widest opacity-40 mb-10 font-bold">
-              Technical Stack
-            </h4>
-            <div className="flex flex-col">
-              {skills.map((skill, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  whileHover={{ x: 5 }}
-                  className="group flex items-center py-3 border-l border-gray-200 dark:border-gray-800 pl-6 hover:border-purple-500 transition-colors cursor-default"
-                >
-                  <span
-                    className={`text-lg font-light transition-colors ${
-                      isDarkMode
-                        ? "text-gray-400 group-hover:text-white"
-                        : "text-gray-600 group-hover:text-black"
-                    }`}
-                  >
-                    {skill}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16">
+          <div className="md:col-span-4">
+            {skills.map((skill, i) => (
+              <div
+                key={i}
+                className="py-3 border-l border-purple-900/30 pl-6 text-sm font-mono text-gray-400"
+              >
+                {skill}
+              </div>
+            ))}
           </div>
-
-          <div className="md:col-span-8 order-1 md:order-2">
-            <h4 className="text-[10px] uppercase tracking-widest opacity-40 mb-10 font-bold">
-              {activeTab} Timeline
-            </h4>
-
-            <div className="relative border-l border-gray-200 dark:border-gray-800 ml-2 pl-8 md:pl-10 space-y-16">
+          <div className="md:col-span-8">
+            <div className="relative border-l border-purple-900/30 ml-2 pl-8 md:pl-10 space-y-16">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -10 }}
-                  transition={{ duration: 0.4 }}
                 >
                   {activeData.map((item, index) => (
-                    <motion.div
-                      key={item.title + index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="relative mb-16 last:mb-0 group"
+                    <div
+                      key={index}
+                      className="relative group mb-12 bg-[#0c071a]/60 p-6 rounded-2xl border border-white/5 backdrop-blur-sm"
                     >
-                      <div className="absolute -left-[37px] md:-left-[45px] top-2 flex items-center justify-center">
-                        <div className="w-2 h-2 rounded-full bg-purple-500 z-10" />
-                        <div className="absolute w-2 h-2 rounded-full bg-purple-500 animate-ping opacity-75" />
-                      </div>
-
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-purple-500 mb-3 block">
+                      <div className="absolute -left-[50px] top-6 w-4 h-4 rounded-full border-2 border-[#05030a] bg-purple-600 z-10" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-purple-400">
                         {item.years}
                       </span>
-
-                      <h5 className="text-2xl font-medium mb-1 tracking-tight">
-                        {item.title}
-                      </h5>
-
-                      <p
-                        className={`text-sm font-medium mb-6 uppercase tracking-wider ${
-                          isDarkMode ? "text-gray-300" : "text-gray-700"
-                        }`}
-                      >
-                        {item.institution || item.company}
+                      <h5 className="text-xl font-bold mt-2">{item.title}</h5>
+                      <p className="text-sm text-gray-500 uppercase tracking-wider mb-2">
+                        {item.organization}
                       </p>
-
-                      {item.description && (
-                        <p
-                          className={`text-base leading-relaxed font-light max-w-xl ${
-                            isDarkMode ? "text-gray-400" : "text-gray-600"
-                          }`}
-                        >
-                          {item.description}
-                        </p>
-                      )}
-                    </motion.div>
+                      <p className="text-sm text-gray-400 leading-relaxed max-w-lg">
+                        {item.description}
+                      </p>
+                    </div>
                   ))}
                 </motion.div>
               </AnimatePresence>
@@ -185,7 +212,7 @@ const Experience = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

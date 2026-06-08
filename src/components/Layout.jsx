@@ -1,21 +1,20 @@
-import React from 'react'
-import Header from './Header'
-import { Outlet } from 'react-router-dom'
-import Footer from './Footer'
-import DarkModeToggle from './DarkModeToggle '
+import React from "react";
+import Header from "./Header";
+import { Outlet } from "react-router-dom";
+import Footer from "./Footer";
+import DarkModeToggle from "./DarkModeToggle ";
 
 const Layout = () => {
-   return (
-      <div className="w-full min-h-max flex flex-col">
-         <Header />
-         <main className="flex-grow">
-            <Outlet />
-         </main>
-         <DarkModeToggle />
-         <Footer />
-      </div>
+  return (
+    <div className="w-full min-h-max flex flex-col">
+      <Header />
+      <main className="flex-grow">
+        <Outlet />
+      </main>
+      {/* <DarkModeToggle /> */}
+      <Footer />
+    </div>
+  );
+};
 
-   )
-}
-
-export default Layout
+export default Layout;

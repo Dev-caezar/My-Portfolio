@@ -1,248 +1,188 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { FaPaperPlane, FaSpinner } from "react-icons/fa";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 const Contact = () => {
-  const isDarkMode = useSelector((state) => state.theme.isDarkMode);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     fullname: "",
     email: "",
     subject: "",
     message: "",
-    myEmail: "okochristian6@gmail.com",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  // 1. Background Interaction Logic
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const glowX = useSpring(mouseX, { stiffness: 120, damping: 25 });
+  const glowY = useSpring(mouseY, { stiffness: 120, damping: 25 });
+
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 30 }).map((_, i) => ({
+        id: i,
+        size: Math.random() * 2 + 1,
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`,
+        duration: Math.random() * 5 + 3,
+        delay: Math.random() * -10,
+      })),
+    [],
+  );
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    mouseX.set(x);
+    mouseY.set(y);
+    e.currentTarget.style.setProperty("--bg-mouse-x", `${x}px`);
+    e.currentTarget.style.setProperty("--bg-mouse-y", `${y}px`);
   };
 
-  const validateForm = () => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (
-      !formData.fullname.trim() ||
-      !formData.email.trim() ||
-      !formData.subject.trim() ||
-      !formData.message.trim()
-    ) {
-      toast.error("All fields are required");
-      return false;
-    }
-
-    if (!emailRegex.test(formData.email)) {
-      toast.error("Please enter a valid email address");
-      return false;
-    }
-
-    return true;
-  };
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const API_BASE_URL = "https://email-service-vu7f.onrender.com/email";
-
-    if (!validateForm()) return;
-
     setLoading(true);
-
     try {
-      const response = await axios.post(API_BASE_URL, formData);
-      toast.success("Message sent successfully!");
-    } catch (error) {
-      const errorMsg =
-        error.response?.data?.message ||
-        "Something went wrong. Please try again.";
-      toast.error(errorMsg);
-      console.error(error);
-    } finally {
-      setLoading(false);
-      setFormData({
-        fullname: "",
-        email: "",
-        subject: "",
-        message: "",
+      await axios.post("https://email-service-vu7f.onrender.com/email", {
+        ...formData,
         myEmail: "okochristian6@gmail.com",
       });
+      toast.success("Message sent successfully!");
+      setFormData({ fullname: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      toast.error("Failed to send message.");
+    } finally {
+      setLoading(false);
     }
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
   return (
     <section
       id="contact"
-      className={`w-full py-24 transition-colors duration-500 overflow-hidden
-          ${isDarkMode ? "bg-gray-950 text-white" : "bg-white text-black"}`}
+      onMouseMove={handleMouseMove}
+      className="w-full py-24 bg-[#05030a] text-white relative overflow-hidden group/section"
     >
-      <Toaster position="bottom-right" reverseOrder={false} />
-      <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-16"
-        >
-          <div className="lg:col-span-5">
-            <motion.h2
-              variants={itemVariants}
-              className="text-[10px] uppercase tracking-[0.4em] font-bold opacity-40 mb-8"
-            >
-              Contact
-            </motion.h2>
-            <motion.h3
-              variants={itemVariants}
-              className="text-5xl md:text-6xl font-light italic tracking-tight mb-8"
-            >
-              Let’s build <br /> something{" "}
-              <span className="text-purple-500">great.</span>
-            </motion.h3>
-            <motion.p
-              variants={itemVariants}
-              className={`text-lg font-light leading-relaxed max-w-md ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
-            >
-              I’m currently available for freelance work and full-time
-              opportunities. If you have a project in mind or just want to chat,
-              drop me a message.
-            </motion.p>
+      {/* 2. Starfield & Grid Background Layer */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-40">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "radial-gradient(white 0.5px, transparent 0.5px)",
+            backgroundSize: "50px 50px",
+          }}
+        ></div>
+        {particles.map((p) => (
+          <motion.div
+            key={p.id}
+            className="absolute bg-white rounded-full"
+            style={{ width: p.size, height: p.size, top: p.top, left: p.left }}
+            animate={{ opacity: [0.2, 0.8, 0.2] }}
+            transition={{
+              duration: p.duration,
+              repeat: Infinity,
+              delay: p.delay,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </div>
 
-            <motion.div variants={itemVariants} className="mt-12">
-              <p className="text-[10px] uppercase tracking-widest font-bold opacity-30 mb-2">
-                Direct Email
-              </p>
-              <a
-                href="mailto:okochristian6@gmail.com"
-                className="text-xl font-medium hover:text-purple-500 transition-colors"
-              >
-                okochristian6@gmail.com
-              </a>
-            </motion.div>
+      {/* 3. Mouse Follow Glow */}
+      <motion.div
+        className="absolute w-[600px] h-[600px] rounded-full bg-purple-600/10 blur-[140px] pointer-events-none opacity-0 group-hover/section:opacity-100 transition-opacity duration-500 mix-blend-screen z-0"
+        style={{ x: glowX, y: glowY, translateX: "-50%", translateY: "-50%" }}
+      />
+
+      {/* 4. Interactive Grid */}
+      <div
+        className="absolute inset-0 bg-[radial-gradient(#1e1538_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none"
+        style={{
+          backgroundPosition:
+            "calc(50% + (var(--bg-mouse-x, 0px) * 0.02)) calc(50% + (var(--bg-mouse-y, 0px) * 0.02))",
+        }}
+      />
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+          <div className="lg:col-span-5">
+            <div className="inline-flex items-center gap-3 mb-4">
+              <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-purple-500 shadow-[0_0_10px_#791cf3]" />
+              <h2 className="text-[10px] uppercase tracking-[0.3em] font-black text-purple-400">
+                04 // CONTACT
+              </h2>
+            </div>
+            <h3 className="text-4xl md:text-6xl font-bold tracking-tight mb-8">
+              Let’s build <br />{" "}
+              <span className="text-purple-500">something great.</span>
+            </h3>
+            <p className="text-gray-400 text-lg leading-relaxed">
+              Currently open for new opportunities. Let's start a conversation.
+            </p>
           </div>
 
-          <motion.div variants={itemVariants} className="lg:col-span-7">
-            <form onSubmit={handleSubmit} className="space-y-12">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div className="relative group">
-                  <input
-                    type="text"
-                    name="fullname"
-                    autoComplete="name"
-                    value={formData.fullname}
-                    onChange={handleChange}
-                    placeholder=" "
-                    className={`peer w-full bg-transparent border-b py-3 focus:outline-none transition-colors
-                                  ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
-                  />
-                  <label
-                    className={`absolute left-0 top-3 text-[10px] uppercase tracking-widest font-bold opacity-40 transition-all pointer-events-none
-                                  peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
-                                  peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
-                  >
-                    Your Name
-                  </label>
-                </div>
+          <motion.form
+            onSubmit={handleSubmit}
+            className="lg:col-span-7 bg-[#0c071a]/60 border border-white/5 p-8 md:p-12 rounded-3xl backdrop-blur-sm"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              <input
+                name="fullname"
+                value={formData.fullname}
+                onChange={handleChange}
+                placeholder="Your Name"
+                className="bg-white/5 border border-white/10 rounded-2xl p-4 w-full focus:border-purple-500 outline-none transition-all"
+                required
+              />
+              <input
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Your Email"
+                className="bg-white/5 border border-white/10 rounded-2xl p-4 w-full focus:border-purple-500 outline-none transition-all"
+                required
+              />
+            </div>
+            <input
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              placeholder="Subject"
+              className="bg-white/5 border border-white/10 rounded-2xl p-4 w-full mb-8 focus:border-purple-500 outline-none transition-all"
+              required
+            />
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              placeholder="Your Message"
+              rows="4"
+              className="bg-white/5 border border-white/10 rounded-2xl p-4 w-full mb-8 focus:border-purple-500 outline-none transition-all resize-none"
+              required
+            />
 
-                <div className="relative group">
-                  <input
-                    type="email"
-                    name="email"
-                    autoComplete="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder=" "
-                    className={`peer w-full bg-transparent border-b py-3 focus:outline-none transition-colors
-                                  ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
-                  />
-                  <label
-                    className={`absolute left-0 top-3 text-[10px] uppercase tracking-widest font-bold opacity-40 transition-all pointer-events-none
-                                  peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
-                                  peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
-                  >
-                    Email Address
-                  </label>
-                </div>
-              </div>
-
-              <div className="relative group">
-                <input
-                  type="text"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  placeholder=" "
-                  className={`peer w-full bg-transparent border-b py-3 focus:outline-none transition-colors
-                               ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
-                />
-                <label
-                  className={`absolute left-0 top-3 text-[10px] uppercase tracking-widest font-bold opacity-40 transition-all pointer-events-none
-                              peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
-                              peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
-                >
-                  Subject
-                </label>
-              </div>
-
-              <div className="relative group">
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows="4"
-                  placeholder=" "
-                  className={`peer w-full bg-transparent border-b py-3 focus:outline-none transition-colors resize-none
-                               ${isDarkMode ? "border-gray-800 focus:border-purple-500" : "border-gray-200 focus:border-purple-500"}`}
-                ></textarea>
-                <label
-                  className={`absolute left-0 top-3 text-[10px] uppercase tracking-widest font-bold opacity-40 transition-all pointer-events-none
-                              peer-focus:-top-4 peer-focus:text-purple-500 peer-focus:opacity-100
-                              peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:opacity-100`}
-                >
-                  Your Message
-                </label>
-              </div>
-
-              <div className="flex justify-start pt-4">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className={`group flex items-center gap-4 py-4 px-10 rounded-full bg-purple-600 text-white font-bold uppercase text-[11px] tracking-[0.2em] transition-all shadow-lg shadow-purple-500/20 
-                    ${loading ? "opacity-70 cursor-not-allowed" : "hover:bg-purple-700 active:scale-95"}`}
-                >
-                  {loading ? (
-                    <>
-                      Sending...
-                      <FaSpinner className="animate-spin" />
-                    </>
-                  ) : (
-                    <>
-                      Send Discovery
-                      <FaPaperPlane className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300" />
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
-          </motion.div>
-        </motion.div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full md:w-auto flex items-center justify-center gap-3 py-4 px-10 rounded-full bg-purple-600 hover:bg-purple-700 font-bold uppercase text-[11px] tracking-[0.2em] transition-all"
+            >
+              {loading ? (
+                <FaSpinner className="animate-spin" />
+              ) : (
+                <>
+                  Send Message <FaPaperPlane size={12} />
+                </>
+              )}
+            </button>
+          </motion.form>
+        </div>
       </div>
     </section>
   );
